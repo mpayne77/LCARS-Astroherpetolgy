@@ -1,0 +1,10 @@
+#headerRow{
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px; 
+}
+
+.elbow.default.horizontal{
+	min-width:25px; 
+	min-height:25px;	
+}
