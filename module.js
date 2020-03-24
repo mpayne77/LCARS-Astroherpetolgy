@@ -25,7 +25,7 @@ var topFrame = LCARS.create({type: 'column', flex: 'v', children: [
 
 ]});
 
-var topFrame1 = LCARS.create({type: 'bar', color:'bg-purple-1', label:'LCARS', style: {
+var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-4', label:'LCARS', style: {
   'position':'absolute',
   'width':'10%',
   'height':'10%',
@@ -34,7 +34,7 @@ var topFrame1 = LCARS.create({type: 'bar', color:'bg-purple-1', label:'LCARS', s
   'text-align': 'right'
 }});
 
-var topFrame2 = LCARS.create({type: 'elbow', color:'bg-green-1', label:'ACCESS', style: {
+var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-4', label:'ACCESS', style: {
   'position':'absolute',
   'width':'10%',
   'height':'15%',
@@ -44,7 +44,7 @@ var topFrame2 = LCARS.create({type: 'elbow', color:'bg-green-1', label:'ACCESS',
   'padding-top':'5px'
 }});
 
-var topFrame3 = LCARS.create({type: 'bar', color:'bg-red-1', style: {
+var topFrame3 = LCARS.create({type: 'bar', color:'bg-orange-3', style: {
   'position':'absolute',
   'width':'calc(30% - 55px - 5px)',
   'height':'30px',
@@ -53,7 +53,7 @@ var topFrame3 = LCARS.create({type: 'bar', color:'bg-red-1', style: {
   'text-align': 'right'
 }});
 
-var topFrame4 = LCARS.create({type: 'bar', color:'bg-red-2', style: {
+var topFrame4 = LCARS.create({type: 'bar', color:'bg-orange-4', style: {
   'position':'absolute',
   'width':'calc(30%)',
   'height':'30px',
@@ -62,7 +62,7 @@ var topFrame4 = LCARS.create({type: 'bar', color:'bg-red-2', style: {
   'text-align': 'right'
 }});
 
-var topFrame5 = LCARS.create({type: 'bar', color:'bg-red-3', style: {
+var topFrame5 = LCARS.create({type: 'bar', color:'bg-orange-3', style: {
   'position':'absolute',
   'width':'calc(30% - 10px)',
   'height':'30px',
@@ -77,7 +77,7 @@ var pageTitle = LCARS.create({type: 'title', color:'bg-text-1', text: 'ASTROHERP
   'top':'10px'
 }});
 
-var bottomFrame1 = LCARS.create({type: 'elbow', color:'bg-orange-1', direction: 'top-left', style: {
+var bottomFrame1 = LCARS.create({type: 'elbow', color:'bg-orange-4', direction: 'top-left', style: {
   'position':'absolute',
   'width':'10%',
   'height':'15%',
@@ -87,7 +87,7 @@ var bottomFrame1 = LCARS.create({type: 'elbow', color:'bg-orange-1', direction: 
   'padding-top':'5px'
 }});
 
-var bottomFrame2 = LCARS.create({type: 'bar', color:'bg-red-1', style: {
+var bottomFrame2 = LCARS.create({type: 'bar', color:'bg-orange-4', style: {
   'position':'absolute',
   'width':'calc(30% - 55px - 5px)',
   'height':'30px',
@@ -96,7 +96,7 @@ var bottomFrame2 = LCARS.create({type: 'bar', color:'bg-red-1', style: {
   'text-align': 'right'
 }});
 
-var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-red-2', style: {
+var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-orange-3', style: {
   'position':'absolute',
   'width':'calc(30%)',
   'height':'30px',
@@ -105,7 +105,7 @@ var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-red-2', style: {
   'text-align': 'right'
 }});
 
-var bottomFrame4 = LCARS.create({type: 'bar', color:'bg-red-3', style: {
+var bottomFrame4 = LCARS.create({type: 'bar', color:'bg-orange-4', style: {
   'position':'absolute',
   'width':'calc(30% - 10px)',
   'height':'30px',
@@ -114,7 +114,7 @@ var bottomFrame4 = LCARS.create({type: 'bar', color:'bg-red-3', style: {
   'text-align': 'right'
 }});
 
-var bottomFrame5 = LCARS.create({type: 'button', color:'bg-purple-1', label:'BUTTON 1', style: {
+var bottomFrame5 = LCARS.create({type: 'button', color:'bg-orange-3', label:'BUTTON 1', style: {
   'position':'absolute',
   'width':'10%',
   'height':'calc(20% - 5px)',
@@ -123,7 +123,7 @@ var bottomFrame5 = LCARS.create({type: 'button', color:'bg-purple-1', label:'BUT
   'text-align': 'right'
 }});
 
-var bottomFrame6 = LCARS.create({type: 'button', color:'bg-purple-2', label:'BUTTON 2', style: {
+var bottomFrame6 = LCARS.create({type: 'button', color:'bg-orange-2', label:'BUTTON 2', style: {
   'position':'absolute',
   'width':'10%',
   'height':'calc(20% - 5px)',
@@ -132,7 +132,7 @@ var bottomFrame6 = LCARS.create({type: 'button', color:'bg-purple-2', label:'BUT
   'text-align': 'right'
 }});
 
-var bottomFrame7 = LCARS.create({type: 'button', color:'bg-purple-3', label:'BUTTON 3', style: {
+var bottomFrame7 = LCARS.create({type: 'button', color:'bg-orange-1', label:'BUTTON 3', style: {
   'position':'absolute',
   'width':'10%',
   'height':'calc(20% - 25px)',
@@ -140,6 +140,32 @@ var bottomFrame7 = LCARS.create({type: 'button', color:'bg-purple-3', label:'BUT
   'top': 'calc(80% + 20px)',
   'text-align': 'right'
 }});
+
+var turtlePicture = LCARS.create({type: 'img', src: 'tortoise.png', style: {
+  'position':'absolute',
+  'width':'40%',
+  'height':'40%',
+  'left': '17%',
+  'top': '50%',
+  'text-align': 'right'
+}});
+
+var pictureBracket = LCARS.create({type: 'defaultBracket', namespace: 'sdk', id:'pictureBracket', style: {
+  'position':'absolute',
+  'width':'46%',
+  'height':'50%',
+  'left': '14%',
+  'top': '40%',
+  },
+  coloring:{
+    elbow:'bg-orange-5',
+    column1:['bg-orange-4', 'bg-orange-3', 'bg-orange-4'],
+    column2:['bg-orange-2', 'bg-orange-1', 'bg-orange-2'],
+    column3:['bg-orange-2', 'bg-orange-1', 'bg-orange-2'],
+    column4:['bg-orange-4', 'bg-orange-3', 'bg-orange-4'],
+    animated:'bg-red-4'                                          
+  }
+});
 
 $(document).ready( function(){
   //$('body').append( LCARS.create({type:'button', color:'bg-blue-1', label:'Button'}).dom );
@@ -159,4 +185,6 @@ $(document).ready( function(){
   $('body').append((bottomFrame5).dom);
   $('body').append((bottomFrame6).dom);
   $('body').append((bottomFrame7).dom);
+  $('body').append((turtlePicture).dom);
+  $('body').append((pictureBracket).dom);
 });
