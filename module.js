@@ -52,10 +52,10 @@ var topFrame5 = LCARS.create({type: 'bar', color:'bg-orange-5', style: {
   'text-align': 'right'
 }});
 
-var pageTitle = LCARS.create({type: 'title', color:'bg-text-1', text: 'ASTROHERPETOLOGY', style: {
+var pageTitle = LCARS.create({type: 'title', color:'bg-orange-3', text: 'ASTROHERPETOLOGY', style: {
   'position': 'absolute',
   'right':'10px',
-  'top':'10px'
+  'top':'20px'
 }});
 
 var bottomFrame1 = LCARS.create({type: 'elbow', color:'bg-orange-4', direction: 'top-left', style: {
@@ -95,7 +95,7 @@ var bottomFrame4 = LCARS.create({type: 'bar', color:'bg-orange-4', style: {
   'text-align': 'right'
 }});
 
-var bottomFrame5 = LCARS.create({type: 'button', color:'bg-purple-5', label:'BUTTON 1', style: {
+var button1 = LCARS.create({type: 'button', id: 'button1', color:'bg-purple-5', label:'BUTTON 1', style: {
   'position':'absolute',
   'width':'10%',
   'height':'calc(20% - 5px)',
@@ -104,7 +104,7 @@ var bottomFrame5 = LCARS.create({type: 'button', color:'bg-purple-5', label:'BUT
   'text-align': 'right'
 }});
 
-var bottomFrame6 = LCARS.create({type: 'button', color:'bg-purple-4', label:'BUTTON 2', id: 'button2', style: {
+var button2 = LCARS.create({type: 'button', color:'bg-purple-4', label:'BUTTON 2', id: 'button2', style: {
   'position':'absolute',
   'width':'10%',
   'height':'calc(20% - 5px)',
@@ -113,7 +113,7 @@ var bottomFrame6 = LCARS.create({type: 'button', color:'bg-purple-4', label:'BUT
   'text-align': 'right'
 }});
 
-var bottomFrame7 = LCARS.create({type: 'button', color:'bg-orange-4', label:'BUTTON 3', id: 'button3', style: {
+var button3 = LCARS.create({type: 'button', color:'bg-orange-4', label:'BUTTON 3', id: 'button3', style: {
   'position':'absolute',
   'width':'10%',
   'height':'calc(20% - 25px)',
@@ -163,14 +163,24 @@ $(document).ready( function(){
   $('body').append((bottomFrame2).dom);
   $('body').append((bottomFrame3).dom);
   $('body').append((bottomFrame4).dom);
-  $('body').append((bottomFrame5).dom);
-  $('body').append((bottomFrame6).dom);
-  $('body').append((bottomFrame7).dom);
+  $('body').append((button1).dom);
+  $('body').append((button2).dom);
+  $('body').append((button3).dom);
   $('body').append((turtlePicture).dom);
   $('body').append((pictureBracket).dom);
   $('#button2').click(function(){
     console.log("button 2 clicked")});
-  $('#button3').click(function(){
-    console.log("button 3 clicked")});
+  $('#button3').click(function(){button3click()});
 });
 
+function button3click() {
+  console.log("button 3 clicked");
+  //$('#button3').set('color', 'bg-green-1');
+  if (button3.get('color') == 'bg-orange-4') {
+    button3.set('color', 'bg-green-1');
+  } else {
+    button3.set('color', 'bg-orange-4');
+  }
+  
+  
+}
