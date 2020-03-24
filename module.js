@@ -1,23 +1,4 @@
-//Append To Body
-//$('body').append( LCARS.create({type:'button', color:'bg-blue-1', label:'Button'}).dom );
 
-//$('body').append( 'Hello' );
-
-/* var headerRow = LCARS.create({type: 'row', flex: 'h', id: 'headerRow', children: [
-  {type: 'bar', flex: 'c-v', color: 'bg-orange-4'},
-  {type: 'title', color: 'bg-text-4', text: 'ASTROHERPETOLOGY'},
-  //{type: 'button', color: 'bg-red-1', label: 'Button2'}
-  {type: 'cap', version: 'round-right', color: 'bg-orange-4'},
-]});
-
-var topFrame = LCARS.create({type: 'row', flexc : 'h', id: 'topFrame', children: [
-  {type: 'column', flex: 'v', children: [
-    {type: 'bar', color: 'bg-orange-4', label: 'LCARS', size: 'large', style: {'width':'100px', 'text-align':'right'}},
-    {type: 'row', flexc: 'h', children: [
-      {type: 'elbow', direction: 'bottom-left', version: 'horizontal', size:'medium', color: 'bg-orange-3', label: 'ACCESS', style: {'width':'100%'}}
-    ]}
-  ]}
-]}); */
 
 var topFrame = LCARS.create({type: 'column', flex: 'v', children: [
     {type: 'bar', color: 'bg-orange-4', label: 'LCARS', size: 'large', style: {'width':'80px', 'text-align':'right'}},
@@ -44,7 +25,7 @@ var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-4', label:'ACCESS'
   'padding-top':'5px'
 }});
 
-var topFrame3 = LCARS.create({type: 'bar', color:'bg-orange-3', style: {
+var topFrame3 = LCARS.create({type: 'bar', color:'bg-orange-5', style: {
   'position':'absolute',
   'width':'calc(30% - 55px - 5px)',
   'height':'30px',
@@ -62,7 +43,7 @@ var topFrame4 = LCARS.create({type: 'bar', color:'bg-orange-4', style: {
   'text-align': 'right'
 }});
 
-var topFrame5 = LCARS.create({type: 'bar', color:'bg-orange-3', style: {
+var topFrame5 = LCARS.create({type: 'bar', color:'bg-orange-5', style: {
   'position':'absolute',
   'width':'calc(30% - 10px)',
   'height':'30px',
@@ -96,7 +77,7 @@ var bottomFrame2 = LCARS.create({type: 'bar', color:'bg-orange-4', style: {
   'text-align': 'right'
 }});
 
-var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-orange-3', style: {
+var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-orange-5', style: {
   'position':'absolute',
   'width':'calc(30%)',
   'height':'30px',
@@ -114,7 +95,7 @@ var bottomFrame4 = LCARS.create({type: 'bar', color:'bg-orange-4', style: {
   'text-align': 'right'
 }});
 
-var bottomFrame5 = LCARS.create({type: 'button', color:'bg-orange-3', label:'BUTTON 1', style: {
+var bottomFrame5 = LCARS.create({type: 'button', color:'bg-purple-5', label:'BUTTON 1', style: {
   'position':'absolute',
   'width':'10%',
   'height':'calc(20% - 5px)',
@@ -123,7 +104,7 @@ var bottomFrame5 = LCARS.create({type: 'button', color:'bg-orange-3', label:'BUT
   'text-align': 'right'
 }});
 
-var bottomFrame6 = LCARS.create({type: 'button', color:'bg-orange-2', label:'BUTTON 2', style: {
+var bottomFrame6 = LCARS.create({type: 'button', color:'bg-purple-4', label:'BUTTON 2', id: 'button2', style: {
   'position':'absolute',
   'width':'10%',
   'height':'calc(20% - 5px)',
@@ -132,7 +113,7 @@ var bottomFrame6 = LCARS.create({type: 'button', color:'bg-orange-2', label:'BUT
   'text-align': 'right'
 }});
 
-var bottomFrame7 = LCARS.create({type: 'button', color:'bg-orange-1', label:'BUTTON 3', style: {
+var bottomFrame7 = LCARS.create({type: 'button', color:'bg-orange-4', label:'BUTTON 3', id: 'button3', style: {
   'position':'absolute',
   'width':'10%',
   'height':'calc(20% - 25px)',
@@ -160,9 +141,9 @@ var pictureBracket = LCARS.create({type: 'defaultBracket', namespace: 'sdk', id:
   coloring:{
     elbow:'bg-orange-5',
     column1:['bg-orange-4', 'bg-orange-3', 'bg-orange-4'],
-    column2:['bg-orange-2', 'bg-orange-1', 'bg-orange-2'],
-    column3:['bg-orange-2', 'bg-orange-1', 'bg-orange-2'],
-    column4:['bg-orange-4', 'bg-orange-3', 'bg-orange-4'],
+    column2:['bg-purple-5', 'bg-purple-4', 'bg-purple-5'],
+    column3:['bg-purple-5', 'bg-purple-4', 'bg-purple-5'],
+    column4:['bg-orange-4', 'bg-green-2', 'bg-orange-4'],
     animated:'bg-red-4'                                          
   }
 });
@@ -187,4 +168,9 @@ $(document).ready( function(){
   $('body').append((bottomFrame7).dom);
   $('body').append((turtlePicture).dom);
   $('body').append((pictureBracket).dom);
+  $('#button2').click(function(){
+    console.log("button 2 clicked")});
+  $('#button3').click(function(){
+    console.log("button 3 clicked")});
 });
+
