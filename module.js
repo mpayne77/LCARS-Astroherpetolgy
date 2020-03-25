@@ -1,4 +1,4 @@
-
+var today = new Date();
 
 var topFrame = LCARS.create({type: 'column', flex: 'v', children: [
     {type: 'bar', color: 'bg-orange-4', label: 'LCARS', size: 'large', style: {'width':'80px', 'text-align':'right'}},
@@ -6,7 +6,7 @@ var topFrame = LCARS.create({type: 'column', flex: 'v', children: [
 
 ]});
 
-var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-4', label:'LCARS', style: {
+var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-3', label:'LCARS', style: {
   'position':'absolute',
   'width':'10%',
   'height':'10%',
@@ -15,7 +15,7 @@ var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-4', label:'LCARS', s
   'text-align': 'right'
 }});
 
-var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-4', label:'ACCESS', style: {
+var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-3', label:'ACCESS', style: {
   'position':'absolute',
   'width':'10%',
   'height':'15%',
@@ -25,7 +25,7 @@ var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-4', label:'ACCESS'
   'padding-top':'5px'
 }});
 
-var topFrame3 = LCARS.create({type: 'bar', color:'bg-orange-5', style: {
+var topFrame3 = LCARS.create({type: 'bar', color:'bg-orange-4', style: {
   'position':'absolute',
   'width':'calc(30% - 55px - 5px)',
   'height':'30px',
@@ -34,7 +34,7 @@ var topFrame3 = LCARS.create({type: 'bar', color:'bg-orange-5', style: {
   'text-align': 'right'
 }});
 
-var topFrame4 = LCARS.create({type: 'bar', color:'bg-orange-4', style: {
+var topFrame4 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'STARDATE', style: {
   'position':'absolute',
   'width':'calc(30%)',
   'height':'30px',
@@ -43,41 +43,38 @@ var topFrame4 = LCARS.create({type: 'bar', color:'bg-orange-4', style: {
   'text-align': 'right'
 }});
 
-var topFrame5 = LCARS.create({type: 'bar', color:'bg-orange-5', style: {
+var topFrame5 = LCARS.create({type: 'bar', color:'bg-orange-4', id: 'stardate', label: stardate(), style: {
   'position':'absolute',
   'width':'calc(30% - 10px)',
   'height':'30px',
   'left': 'calc(70% + 5px)',
-  'top': 'calc(25% - 20px)',
-  'text-align': 'right'
+  'top': 'calc(25% - 20px)'
 }});
 
-var pageTitle = LCARS.create({type: 'title', color:'bg-orange-3', text: 'ASTROHERPETOLOGY', style: {
+var pageTitle = LCARS.create({type: 'title', color:'bg-orange-4', text: 'ASTROHERPETOLOGY', style: {
   'position': 'absolute',
   'right':'10px',
   'top':'20px'
 }});
 
-var bottomFrame1 = LCARS.create({type: 'elbow', color:'bg-orange-4', direction: 'top-left', style: {
+var bottomFrame1 = LCARS.create({type: 'elbow', color:'bg-orange-3', direction: 'top-left', style: {
   'position':'absolute',
   'width':'10%',
   'height':'15%',
   'left': '5px',
   'top': 'calc(25% + 15px)',
-  'text-align': 'right',
   'padding-top':'5px'
 }});
 
-var bottomFrame2 = LCARS.create({type: 'bar', color:'bg-orange-4', style: {
+var bottomFrame2 = LCARS.create({type: 'bar', color:'bg-orange-3', style: {
   'position':'absolute',
   'width':'calc(30% - 55px - 5px)',
   'height':'30px',
   'left': 'calc(10% + 55px)',
   'top': 'calc(25% + 15px)',
-  'text-align': 'right'
 }});
 
-var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-orange-5', style: {
+var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'TIME', style: {
   'position':'absolute',
   'width':'calc(30%)',
   'height':'30px',
@@ -86,13 +83,13 @@ var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-orange-5', style: {
   'text-align': 'right'
 }});
 
-var bottomFrame4 = LCARS.create({type: 'bar', color:'bg-orange-4', style: {
+var bottomFrame4 = LCARS.create({type: 'bar', color:'bg-orange-3', id: 'startime', label: startime(), style: {
   'position':'absolute',
   'width':'calc(30% - 10px)',
   'height':'30px',
   'left': 'calc(70% + 5px)',
   'top': 'calc(25% + 15px)',
-  'text-align': 'right'
+  'text-align': 'left'
 }});
 
 var button1 = LCARS.create({type: 'button', id: 'button1', color:'bg-purple-5', label:'BUTTON 1', style: {
@@ -149,10 +146,7 @@ var pictureBracket = LCARS.create({type: 'defaultBracket', namespace: 'sdk', id:
 });
 
 $(document).ready( function(){
-  //$('body').append( LCARS.create({type:'button', color:'bg-blue-1', label:'Button'}).dom );
-  //$('body').append('<p> hey dingus </p>');
-  console.log( "sup bro" );
-  //$('body').append((headerRow).dom);
+  console.log(stardate());
   $('body').append((topFrame1).dom);
   $('body').append((topFrame2).dom);
   $('body').append((topFrame3).dom);
@@ -171,7 +165,12 @@ $(document).ready( function(){
   $('#button2').click(function(){
     console.log("button 2 clicked")});
   $('#button3').click(function(){button3click()});
+  setInterval(updateItems, 1000);
 });
+
+function updateItems() {
+  bottomFrame4.set('label', startime());
+}
 
 function button3click() {
   console.log("button 3 clicked");
@@ -181,6 +180,63 @@ function button3click() {
   } else {
     button3.set('color', 'bg-orange-4');
   }
-  
-  
 }
+
+function stardate() {
+  var today = new Date;
+  var sdYear = today.getUTCFullYear();
+  var sdMonth = today.getUTCMonth();
+  var sdDate = today.getUTCDate();
+  
+  var strSDyear = sdYear.toString();
+  var strSDmonth = sdMonth.toString();
+  if (sdMonth < 10) {
+    strSDmonth = '0' + strSDmonth;
+  }
+  var strSDdate = sdDate.toString();
+  if (sdDate < 10) {
+    strSDdate = '0' + strSDdate;
+  }
+
+  console.log(strSDyear + strSDmonth + strSDdate);
+
+  var sdHours = today.getUTCHours();
+  var sdMinutes = today.getUTCMinutes();
+  var strSDhours = sdHours.toString();
+  if (sdHours < 10) {
+    strSDhours = '0' + strSDhours;
+  }
+  var strSDminutes = sdMinutes.toString();
+  if (sdMinutes < 10) {
+    strSDminutes = '0' + strSDminutes;
+  }
+
+  console.log(strSDhours + strSDminutes);
+
+  return strSDyear + '.' + strSDmonth + '.' + strSDdate;
+
+}
+
+function startime() {
+  var today = new Date;
+
+  var sdHours = today.getUTCHours();
+  var sdMinutes = today.getUTCMinutes();
+  var sdSeconds = today.getUTCSeconds();
+  var strSDhours = sdHours.toString();
+  if (sdHours < 10) {
+    strSDhours = '0' + strSDhours;
+  }
+  var strSDminutes = sdMinutes.toString();
+  if (sdMinutes < 10) {
+    strSDminutes = '0' + strSDminutes;
+  }
+  var strSDseconds = sdSeconds.toString();
+  if (sdSeconds < 10) {
+    strSDseconds = '0' + strSDseconds;
+  }
+
+  return strSDhours + ':' + strSDminutes + ':' + strSDseconds;
+
+}
+
