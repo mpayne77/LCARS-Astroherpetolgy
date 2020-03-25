@@ -6,6 +6,8 @@ var topFrame = LCARS.create({type: 'column', flex: 'v', children: [
 
 ]});
 
+
+
 var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-3', label:'LCARS', style: {
   'position':'absolute',
   'width':'10%',
@@ -174,12 +176,14 @@ function updateItems() {
 
 function button3click() {
   console.log("button 3 clicked");
-  //$('#button3').set('color', 'bg-green-1');
   if (button3.get('color') == 'bg-orange-4') {
     button3.set('color', 'bg-green-1');
   } else {
     button3.set('color', 'bg-orange-4');
   }
+  const beep = document.getElementById('beep2');
+  beep.play();
+
 }
 
 function stardate() {
