@@ -1,18 +1,106 @@
-#headerRow{
-  padding-top: 5px;
-  padding-left: 5px;
-  padding-right: 5px; 
-}
 
-.elbow.default.horizontal{
+.elbow.default.horizontal {
 	min-width:25px; 
 	min-height:25px;	
 }
 
-.button{
+.button {
   min-width: 30px;
 }
 
-.title{
+#pageTitle {
+  position: absolute;
   font-size: 85px;
+  right: 10px;
+  top: 20px;
 }
+
+#topFrame1, #topFrame2, #bottomFrame1, #bottomFrame2, #button1,
+  #button2, #button3 {
+  position: absolute;
+  width: 10%;
+  left: 5px;
+  text-align: right;
+}
+
+#topFrame3, #topFrame4, #topFrame5 {
+  position: absolute;
+  top: calc(25% - 20px);
+}
+
+#bottomFrame1, #bottomFrame2, #bottomFrame3, #bottomFrame4 {
+  position: absolute;
+  top: calc(25% + 15px);
+}
+
+#topFrame3, #bottomFrame2 {
+  left: calc(10% + 55px);
+  width: calc(30% - 55px - 5px);
+  height: 30px;
+}
+
+#topFrame4, #bottomFrame3 {
+  width: 30%;
+  height: 30px;
+  left: 40%;
+  text-align: right;
+}
+
+#topFrame5, #bottomFrame4 {
+  width: calc(30% - 10px);
+  height: 30px;
+  left: calc(70% + 5px);
+  text-align: left;
+}
+
+#turtlePicture {
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  left: 17%;
+  top: 50%;
+}
+
+#pictureBracket {
+  position: absolute;
+  width: 46%;
+  height: 50%;
+  left: 14%;
+  top: 40%;
+}
+
+#topFrame1 {
+  position: absolute;
+  height: 10%;
+  top: 5px
+}
+
+#topFrame2 {
+  position: absolute;
+  height: 15%;
+  top: calc(10% + 10px);
+}
+
+#bottomFrame1 {
+  position: absolute;
+  height: 15%
+}
+
+#button1 {
+  position: absolute;
+  height: calc(20% - 5px);
+  top: calc(40% + 20px);
+}
+
+#button2 {
+  position: absolute;
+  height: calc(20% - 5px);
+  top: calc(60% + 20px);
+}
+
+#button3 {
+  position: absolute;
+  height: calc(20% - 25px);
+  top: calc(80% + 20px);
+}
+

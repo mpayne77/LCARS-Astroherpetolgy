@@ -1,149 +1,41 @@
 var today = new Date();
+ 
+var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-3', label:'LCARS', id: 'topFrame1'});
 
-var topFrame = LCARS.create({type: 'column', flex: 'v', children: [
-    {type: 'bar', color: 'bg-orange-4', label: 'LCARS', size: 'large', style: {'width':'80px', 'text-align':'right'}},
-    {type: 'elbow', direction: 'bottom-left', version: 'horizontal', size:'medium', color: 'bg-orange-3', label: 'ACCESS', style: {'width':'100%'}}
+var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-3', label:'ACCESS', id: 'topFrame2'});
 
-]});
+var topFrame3 = LCARS.create({type: 'bar', color:'bg-orange-4', id: 'topFrame3'});
 
+var topFrame4 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'STARDATE', id: 'topFrame4'});
 
+var topFrame5 = LCARS.create({type: 'bar', color:'bg-orange-4', id: 'stardate', label: stardate(), id: 'topFrame5'});
 
-var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-3', label:'LCARS', style: {
-  'position':'absolute',
-  'width':'10%',
-  'height':'10%',
-  'left': '5px',
-  'top': '5px',
-  'text-align': 'right'
-}});
+var pageTitle = LCARS.create({type: 'title', color:'bg-orange-4', text: 'ASTROHERPETOLOGY', id: 'pageTitle'});
 
-var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-3', label:'ACCESS', style: {
-  'position':'absolute',
-  'width':'10%',
-  'height':'15%',
-  'left': '5px',
-  'top': 'calc(10% + 10px)',
-  'text-align': 'right',
-  'padding-top':'5px'
-}});
+var bottomFrame1 = LCARS.create({type: 'elbow', color:'bg-orange-3', direction: 'top-left', id: 'bottomFrame1'});
 
-var topFrame3 = LCARS.create({type: 'bar', color:'bg-orange-4', style: {
-  'position':'absolute',
-  'width':'calc(30% - 55px - 5px)',
-  'height':'30px',
-  'left': 'calc(10% + 55px)',
-  'top': 'calc(25% - 20px)',
-  'text-align': 'right'
-}});
+var bottomFrame2 = LCARS.create({type: 'bar', color:'bg-orange-3', id: 'bottomFrame2'});
 
-var topFrame4 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'STARDATE', style: {
-  'position':'absolute',
-  'width':'calc(30%)',
-  'height':'30px',
-  'left': '40%',
-  'top': 'calc(25% - 20px)',
-  'text-align': 'right'
-}});
+var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'TIME', id: 'bottomFrame3'});
 
-var topFrame5 = LCARS.create({type: 'bar', color:'bg-orange-4', id: 'stardate', label: stardate(), style: {
-  'position':'absolute',
-  'width':'calc(30% - 10px)',
-  'height':'30px',
-  'left': 'calc(70% + 5px)',
-  'top': 'calc(25% - 20px)'
-}});
+var bottomFrame4 = LCARS.create({type: 'bar', color:'bg-orange-3', id: 'startime', label: startime(), id: 'bottomFrame4'});
 
-var pageTitle = LCARS.create({type: 'title', color:'bg-orange-4', text: 'ASTROHERPETOLOGY', style: {
-  'position': 'absolute',
-  'right':'10px',
-  'top':'20px'
-}});
+var button1 = LCARS.create({type: 'button', id: 'button1', color:'bg-purple-5', label:'button1'});
 
-var bottomFrame1 = LCARS.create({type: 'elbow', color:'bg-orange-3', direction: 'top-left', style: {
-  'position':'absolute',
-  'width':'10%',
-  'height':'15%',
-  'left': '5px',
-  'top': 'calc(25% + 15px)',
-  'padding-top':'5px'
-}});
+var button2 = LCARS.create({type: 'button', color:'bg-purple-4', label:'BUTTON 2', id: 'button2'});
 
-var bottomFrame2 = LCARS.create({type: 'bar', color:'bg-orange-3', style: {
-  'position':'absolute',
-  'width':'calc(30% - 55px - 5px)',
-  'height':'30px',
-  'left': 'calc(10% + 55px)',
-  'top': 'calc(25% + 15px)',
-}});
+var button3 = LCARS.create({type: 'button', color:'bg-orange-4', label:'BUTTON 3', id: 'button3'});
 
-var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'TIME', style: {
-  'position':'absolute',
-  'width':'calc(30%)',
-  'height':'30px',
-  'left': '40%',
-  'top': 'calc(25% + 15px)',
-  'text-align': 'right'
-}});
+var turtlePicture = LCARS.create({type: 'img', src: 'tortoise.png', id: 'turtlePicture',});
 
-var bottomFrame4 = LCARS.create({type: 'bar', color:'bg-orange-3', id: 'startime', label: startime(), style: {
-  'position':'absolute',
-  'width':'calc(30% - 10px)',
-  'height':'30px',
-  'left': 'calc(70% + 5px)',
-  'top': 'calc(25% + 15px)',
-  'text-align': 'left'
-}});
-
-var button1 = LCARS.create({type: 'button', id: 'button1', color:'bg-purple-5', label:'BUTTON 1', style: {
-  'position':'absolute',
-  'width':'10%',
-  'height':'calc(20% - 5px)',
-  'left': '5px',
-  'top': 'calc(40% + 20px)',
-  'text-align': 'right'
-}});
-
-var button2 = LCARS.create({type: 'button', color:'bg-purple-4', label:'BUTTON 2', id: 'button2', style: {
-  'position':'absolute',
-  'width':'10%',
-  'height':'calc(20% - 5px)',
-  'left': '5px',
-  'top': 'calc(60% + 20px)',
-  'text-align': 'right'
-}});
-
-var button3 = LCARS.create({type: 'button', color:'bg-orange-4', label:'BUTTON 3', id: 'button3', style: {
-  'position':'absolute',
-  'width':'10%',
-  'height':'calc(20% - 25px)',
-  'left': '5px',
-  'top': 'calc(80% + 20px)',
-  'text-align': 'right'
-}});
-
-var turtlePicture = LCARS.create({type: 'img', src: 'tortoise.png', style: {
-  'position':'absolute',
-  'width':'40%',
-  'height':'40%',
-  'left': '17%',
-  'top': '50%',
-  'text-align': 'right'
-}});
-
-var pictureBracket = LCARS.create({type: 'defaultBracket', namespace: 'sdk', id:'pictureBracket', style: {
-  'position':'absolute',
-  'width':'46%',
-  'height':'50%',
-  'left': '14%',
-  'top': '40%',
-  },
-  coloring:{
-    elbow:'bg-orange-5',
-    column1:['bg-orange-4', 'bg-orange-3', 'bg-orange-4'],
-    column2:['bg-purple-5', 'bg-purple-4', 'bg-purple-5'],
-    column3:['bg-purple-5', 'bg-purple-4', 'bg-purple-5'],
-    column4:['bg-orange-4', 'bg-green-2', 'bg-orange-4'],
-    animated:'bg-red-4'                                          
+var pictureBracket = LCARS.create({type: 'defaultBracket', namespace: 'sdk', id:'pictureBracket',
+  coloring: {
+    elbow: 'bg-orange-5',
+    column1: ['bg-orange-4', 'bg-orange-3', 'bg-orange-4'],
+    column2: ['bg-purple-5', 'bg-purple-4', 'bg-purple-5'],
+    column3: ['bg-purple-5', 'bg-purple-4', 'bg-purple-5'],
+    column4: ['bg-orange-4', 'bg-green-2', 'bg-orange-4'],
+    animated: 'bg-red-4'                                          
   }
 });
 
