@@ -40,7 +40,6 @@ var pictureBracket = LCARS.create({type: 'defaultBracket', namespace: 'sdk', id:
 });
 
 $(document).ready( function(){
-  console.log(stardate());
   $('body').append((topFrame1).dom);
   $('body').append((topFrame2).dom);
   $('body').append((topFrame3).dom);
@@ -56,8 +55,6 @@ $(document).ready( function(){
   $('body').append((button3).dom);
   $('body').append((turtlePicture).dom);
   $('body').append((pictureBracket).dom);
-  $('#button2').click(function(){
-    console.log("button 2 clicked")});
   $('#button3').click(function(){button3click()});
   setInterval(updateItems, 1000);
 });
@@ -81,7 +78,7 @@ function button3click() {
 function stardate() {
   var today = new Date;
   var sdYear = today.getUTCFullYear();
-  var sdMonth = today.getUTCMonth();
+  var sdMonth = today.getUTCMonth() + 1;
   var sdDate = today.getUTCDate();
   
   var strSDyear = sdYear.toString();
