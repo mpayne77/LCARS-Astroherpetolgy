@@ -8,11 +8,15 @@
   min-width: 30px;
 }
 
+.cap {
+  text-align: left;
+  min-width: 10px;
+}
+
 #pageTitle {
   position: absolute;
-  font-size: 85px;
   right: 10px;
-  top: 20px;
+  top: 5px;
 }
 
 #topFrame1, #topFrame2, #bottomFrame1, #bottomFrame2, #button1,
@@ -102,5 +106,43 @@
   position: absolute;
   height: calc(20% - 25px);
   top: calc(80% + 20px);
+}
+
+#tempLightStatus, #rhLightStatus, #tempShadeStatus, #rhShadeStatus, #rhSoilStatus, #uvLightStatus {
+  position: absolute;
+  width: 15%;
+  height: 6%;
+  text-align: right;
+  font-size: 17px;
+}
+
+#tempLightText, #rhLightText, #tempShadeText, #rhShadeText, #rhSoilText, #uvLightText {
+  font-size: 55px;
+}
+
+#tempLightStatus, #rhLightStatus {
+  left: 14%;
+}
+
+#tempShadeStatus, #rhShadeStatus {
+  left: 30%;
+}
+
+#rhSoilStatus, #uvLightStatus {
+  left: 46%;
+}
+
+#tempLightStatus, #tempShadeStatus, #rhSoilStatus {
+  top: 4%;
+}
+
+#rhLightStatus, #rhShadeStatus, #uvLightStatus {
+  top: 13%;
+}
+
+#tempLightCap, #rhLightCap, #tempShadeCap, #rhShadeCap, #rhSoilCap, #uvLightCap {
+  position: relative;
+  width: 20%;
+  font-size: 12px;
 }
 

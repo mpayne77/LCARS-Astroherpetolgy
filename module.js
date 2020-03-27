@@ -6,7 +6,7 @@ var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-3', label:'ACCESS'
 
 var topFrame3 = LCARS.create({type: 'bar', color:'bg-orange-4', id: 'topFrame3'});
 
-var topFrame4 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'STARDATE', id: 'topFrame4'});
+var topFrame4 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'STARDATE:', id: 'topFrame4'});
 
 var topFrame5 = LCARS.create({type: 'bar', color:'bg-orange-4', id: 'stardate', label: stardate(), id: 'topFrame5'});
 
@@ -16,11 +16,11 @@ var bottomFrame1 = LCARS.create({type: 'elbow', color:'bg-orange-3', direction: 
 
 var bottomFrame2 = LCARS.create({type: 'bar', color:'bg-orange-3', id: 'bottomFrame2'});
 
-var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'TIME', id: 'bottomFrame3'});
+var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'TIME:', id: 'bottomFrame3'});
 
 var bottomFrame4 = LCARS.create({type: 'bar', color:'bg-orange-3', id: 'startime', label: startime(), id: 'bottomFrame4'});
 
-var button1 = LCARS.create({type: 'button', id: 'button1', color:'bg-purple-5', label:'button1'});
+var button1 = LCARS.create({type: 'button', id: 'button1', color:'bg-purple-5', label:'BUTTON 1'});
 
 var button2 = LCARS.create({type: 'button', color:'bg-purple-4', label:'BUTTON 2', id: 'button2'});
 
@@ -39,6 +39,44 @@ var pictureBracket = LCARS.create({type: 'defaultBracket', namespace: 'sdk', id:
   }
 });
 
+var tempLightStatus = LCARS.create({type:'complexButton', id: 'tempLightStatus', children: [
+  {type: 'button', version: 'round-left', color: 'bg-purple-3', label: 'TEMP\n(LIGHT)', id: 'tempLightButton'}, 
+  {type: 'title', color: 'bg-grey-1', text: '35', id: 'tempLightText'}, 
+  {type: 'cap', version: 'round-right', color: 'bg-purple-3', id: 'tempLightCap'}
+]});
+
+var rhLightStatus = LCARS.create({type:'complexButton', id: 'rhLightStatus', children: [
+  {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'RH\n(LIGHT)', id: 'rhLightButton'}, 
+  {type: 'title', color: 'bg-grey-1', text: '60', id: 'rhShadeText'}, 
+  {type: 'cap', version: 'round-right', color: 'bg-purple-4', id: 'rhLightCap'}
+]});
+
+var tempShadeStatus = LCARS.create({type:'complexButton', id: 'tempShadeStatus', children: [
+  {type: 'button', version: 'round-left', color: 'bg-purple-3', label: 'TEMP\n(SHADE)', id: 'tempShadeButton'}, 
+  {type: 'title', color: 'bg-grey-1', text: '21', id: 'tempShadeText'}, 
+  {type: 'cap', version: 'round-right', color: 'bg-purple-3', id: 'tempShadeCap'}
+]});
+
+var rhShadeStatus = LCARS.create({type:'complexButton', id: 'rhShadeStatus', children: [
+  {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'RH\n(SHADE)', id: 'rhShadeButton'}, 
+  {type: 'title', color: 'bg-grey-1', text: '52', id: 'rhShadeText'}, 
+  {type: 'cap', version: 'round-right', color: 'bg-purple-4', id: 'rhShadeCap'}
+]});
+
+var rhSoilStatus = LCARS.create({type:'complexButton', id: 'rhSoilStatus', children: [
+  {type: 'button', version: 'round-left', color: 'bg-purple-3', label: 'SOIL\nHUMIDITY', id: 'rhSoilButton'}, 
+  {type: 'title', color: 'bg-grey-1', text: '21', id: 'rhSoilText'}, 
+  {type: 'cap', version: 'round-right', color: 'bg-purple-3', id: 'rhSoilCap'}
+]});
+
+var uvLightStatus = LCARS.create({type:'complexButton', id: 'uvLightStatus', children: [
+  {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'UV\nINTENSITY', id: 'uvLightButton'}, 
+  {type: 'title', color: 'bg-grey-1', text: '21', id: 'uvLightText'}, 
+  {type: 'cap', version: 'round-right', color: 'bg-purple-4', id: 'uvLightCap'}
+]});
+
+
+
 $(document).ready( function(){
   $('body').append((topFrame1).dom);
   $('body').append((topFrame2).dom);
@@ -55,6 +93,12 @@ $(document).ready( function(){
   $('body').append((button3).dom);
   $('body').append((turtlePicture).dom);
   $('body').append((pictureBracket).dom);
+  $('body').append((tempLightStatus).dom);
+  $('body').append((rhLightStatus).dom);
+  $('body').append((tempShadeStatus).dom);
+  $('body').append((rhShadeStatus).dom);
+  $('body').append((rhSoilStatus).dom);
+  $('body').append((uvLightStatus).dom);
   $('#button3').click(function(){button3click()});
   setInterval(updateItems, 1000);
 });
