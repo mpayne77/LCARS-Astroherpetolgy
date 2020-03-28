@@ -1,4 +1,5 @@
 var today = new Date();
+var lightStatus = false;
  
 var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-3', label:'LCARS', id: 'topFrame1'});
 
@@ -10,7 +11,7 @@ var topFrame4 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'STARDATE
 
 var topFrame5 = LCARS.create({type: 'bar', color:'bg-orange-4', id: 'stardate', label: stardate(), id: 'topFrame5'});
 
-var pageTitle = LCARS.create({type: 'title', color:'bg-orange-4', text: 'ASTROHERPETOLOGY', id: 'pageTitle'});
+var pageTitle = LCARS.create({type: 'title', color:'bg-orange-3', text: 'ASTROHERPETOLOGY', id: 'pageTitle'});
 
 var bottomFrame1 = LCARS.create({type: 'elbow', color:'bg-orange-3', direction: 'top-left', id: 'bottomFrame1'});
 
@@ -20,23 +21,23 @@ var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'TIME:
 
 var bottomFrame4 = LCARS.create({type: 'bar', color:'bg-orange-3', id: 'startime', label: startime(), id: 'bottomFrame4'});
 
-var button1 = LCARS.create({type: 'button', id: 'button1', color:'bg-purple-5', label:'BUTTON 1'});
+var homeButton = LCARS.create({type: 'button', color:'bg-purple-5', label:'HOME', id: 'homeButton'});
 
-var button2 = LCARS.create({type: 'button', color:'bg-purple-4', label:'BUTTON 2', id: 'button2'});
+var timerAdjustButton = LCARS.create({type: 'button', color:'bg-purple-4', label:'TIMER\nADJUST', id: 'timerAdjustButton'});
 
-var button3 = LCARS.create({type: 'button', color:'bg-orange-4', label:'BUTTON 3', id: 'button3'});
+var timerOverrideButton = LCARS.create({type: 'button', color:'bg-orange-4', label:'TIMER\nOVERRIDE', id: 'timerOverrideButton'});
 
 var turtlePicture = LCARS.create({type: 'img', src: 'tortoise.png', id: 'turtlePicture',});
 
 var pictureBracket = LCARS.create({type: 'defaultBracket', namespace: 'sdk', id:'pictureBracket',
-  coloring: {
+coloring: {
     elbow: 'bg-orange-5',
     column1: ['bg-orange-4', 'bg-orange-3', 'bg-orange-4'],
     column2: ['bg-purple-5', 'bg-purple-4', 'bg-purple-5'],
     column3: ['bg-purple-5', 'bg-purple-4', 'bg-purple-5'],
     column4: ['bg-orange-4', 'bg-green-2', 'bg-orange-4'],
     animated: 'bg-red-4'                                          
-  }
+  },
 });
 
 var tempLightStatus = LCARS.create({type:'complexButton', id: 'tempLightStatus', children: [
@@ -69,12 +70,13 @@ var rhSoilStatus = LCARS.create({type:'complexButton', id: 'rhSoilStatus', child
   {type: 'cap', version: 'round-right', color: 'bg-purple-3', id: 'rhSoilCap'}
 ]});
 
-var uvLightStatus = LCARS.create({type:'complexButton', id: 'uvLightStatus', children: [
-  {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'UV\nINTENSITY', id: 'uvLightButton'}, 
+var uvLightStatus = LCARS.create({type:'complexButton', id: 'uvLightStatus', state: 'blink', children: [
+  {type: 'button', version: 'round-left', color: 'bg-blue-1', label: 'UV\nINTENSITY', id: 'uvLightButton'}, 
   {type: 'title', color: 'bg-grey-1', text: '21', id: 'uvLightText'}, 
-  {type: 'cap', version: 'round-right', color: 'bg-purple-4', id: 'uvLightCap'}
+  {type: 'cap', version: 'round-right', color: 'bg-blue-1 ', id: 'uvLightCap'}
 ]});
 
+var lightPowerToggle = LCARS.create({type: 'button', version: 'round', color: 'bg-red-1', label: '', id: 'lightPowerToggle'});
 
 
 $(document).ready( function(){
@@ -88,9 +90,9 @@ $(document).ready( function(){
   $('body').append((bottomFrame2).dom);
   $('body').append((bottomFrame3).dom);
   $('body').append((bottomFrame4).dom);
-  $('body').append((button1).dom);
-  $('body').append((button2).dom);
-  $('body').append((button3).dom);
+  $('body').append((homeButton).dom);
+  $('body').append((timerAdjustButton).dom);
+  $('body').append((timerOverrideButton).dom);
   $('body').append((turtlePicture).dom);
   $('body').append((pictureBracket).dom);
   $('body').append((tempLightStatus).dom);
@@ -99,24 +101,46 @@ $(document).ready( function(){
   $('body').append((rhShadeStatus).dom);
   $('body').append((rhSoilStatus).dom);
   $('body').append((uvLightStatus).dom);
-  $('#button3').click(function(){button3click()});
+  $('body').append((lightPowerToggle).dom);
+
+  $('#lightPowerToggle').hide();
+  
+
+  $('#homeButton').click(function(){homeButtonClick()});
+  $('#timerOverrideButton').click(function(){timerOverrideButtonClick()});
+  $('#lightPowerToggle').click(function(){lightPowerToggleClick()});
+  
   setInterval(updateItems, 1000);
+
+  console.log(timerOverrideButton.get('state'));
 });
 
 function updateItems() {
   bottomFrame4.set('label', startime());
 }
 
-function button3click() {
-  console.log("button 3 clicked");
-  if (button3.get('color') == 'bg-orange-4') {
-    button3.set('color', 'bg-green-1');
-  } else {
-    button3.set('color', 'bg-orange-4');
-  }
+function homeButtonClick() {
+  console.log("Home button clicked");
+
   const beep = document.getElementById('beep2');
   beep.play();
 
+}
+
+function timerOverrideButtonClick() {
+  const beep = document.getElementById('beep1');
+  beep.play();
+
+  if (timerOverrideButton.get('state') == 'red-dark-light') {
+    $('#lightPowerToggle').hide();
+    setLightToggleLabel();
+    timerOverrideButton.set('state', null);
+    
+  } else {
+    $('#lightPowerToggle').show();
+    setLightToggleLabel();
+    timerOverrideButton.set('state', 'red-dark-light');
+  }
 }
 
 function stardate() {
@@ -177,3 +201,23 @@ function startime() {
 
 }
 
+function setLightToggleLabel () {
+  if (lightStatus) {
+    lightPowerToggle.set('label', 'TURN LIGHT OFF');
+  } else {
+    lightPowerToggle.set('label', 'TURN LIGHT ON');
+  }
+}
+
+function lightPowerToggleClick () {
+  if (lightStatus) {
+    console.log('Turning light off');
+    lightStatus = false;
+    setLightToggleLabel();
+
+  } else {
+    console.log('Turning light on');
+    lightStatus = true;
+    setLightToggleLabel();
+  }
+}

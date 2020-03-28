@@ -19,8 +19,8 @@
   top: 5px;
 }
 
-#topFrame1, #topFrame2, #bottomFrame1, #bottomFrame2, #button1,
-  #button2, #button3 {
+#topFrame1, #topFrame2, #bottomFrame1, #bottomFrame2, #homeButton,
+  #timerAdjustButton, #timerOverrideButton {
   position: absolute;
   width: 10%;
   left: 5px;
@@ -90,19 +90,19 @@
   height: 15%
 }
 
-#button1 {
+#homeButton {
   position: absolute;
   height: calc(20% - 5px);
   top: calc(40% + 20px);
 }
 
-#button2 {
+#timerAdjustButton {
   position: absolute;
   height: calc(20% - 5px);
   top: calc(60% + 20px);
 }
 
-#button3 {
+#timerOverrideButton {
   position: absolute;
   height: calc(20% - 25px);
   top: calc(80% + 20px);
@@ -133,16 +133,27 @@
 }
 
 #tempLightStatus, #tempShadeStatus, #rhSoilStatus {
-  top: 4%;
+  top: 3%;
 }
 
 #rhLightStatus, #rhShadeStatus, #uvLightStatus {
-  top: 13%;
+  top: 12%;
 }
 
 #tempLightCap, #rhLightCap, #tempShadeCap, #rhShadeCap, #rhSoilCap, #uvLightCap {
   position: relative;
   width: 20%;
   font-size: 12px;
+}
+
+#lightPowerToggle {
+  position: absolute;
+  width: 30%;
+  height: 20%;
+  left: 65%;
+  top: 45%;
+  text-align: center;
+  font-size: 40px;
+  
 }
 
