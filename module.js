@@ -79,6 +79,65 @@ var uvLightStatus = LCARS.create({type:'complexButton', id: 'uvLightStatus', chi
 var lightPowerToggle = LCARS.create({type: 'button', version: 'round', color: 'bg-red-1', label: '', id: 'lightPowerToggle'});
 var lightOverrideText = LCARS.create({type: 'text', color: 'bg-purple-1', text: lightOverrideMessage, id: 'lightOverrideText'});
 
+var timerSet = LCARS.create({type: 'wrapper', id: 'timerSet', children: [
+	{type: 'elbow', direction: 'top-left', version: 'vertical', size: 'small', color:'bg-orange-3', id: 'timerFrameTopLeft'},	
+	{type: 'elbow', direction: 'bottom-left', version: 'vertical', size: 'small', color:'bg-orange-3', id: 'timerFrameBottomLeft'},	
+	{type: 'elbow', direction: 'bottom-right', version: 'vertical', size: 'small', color:'bg-orange-3', id: 'timerFrameBottomRight'},	
+  {type: 'elbow', direction: 'top-right', version: 'vertical', size: 'small', color:'bg-orange-3', id: 'timerFrameTopRight'},	
+  {type: 'row', flex: 'h', id: 'timerSetScaleTop', children: [
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+  ]},
+  {type: 'row', flex: 'h', id: 'timerSetScaleBottom', children: [
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+    {type: 'bar', color: 'bg-purple-1'},
+  ]},
+]});
+
 
 $(document).ready( function(){
   $('body').append((topFrame1).dom);
@@ -106,11 +165,13 @@ $(document).ready( function(){
   $('#lightPowerToggle').hide();
   $('body').append((lightOverrideText).dom);
   $('#lightOverrideText').hide();
-
+  $('body').append((timerSet).dom);
+  $('#timerSet').hide();
   
   
 
   $('#homeButton').click(function(){homeButtonClick()});
+  $('#timerAdjustButton').click(function(){timerAdjustButtonClick()});
   $('#timerOverrideButton').click(function(){timerOverrideButtonClick()});
   $('#lightPowerToggle').click(function(){lightPowerToggleClick()});
   
@@ -154,6 +215,19 @@ function timerOverrideButtonClick() {
     $('#lightOverrideText').show();
     setLightToggleLabel();
     timerOverrideButton.set('state', 'red-dark-light');
+  }
+}
+
+function timerAdjustButtonClick() {
+  const beep = document.getElementById('beep1');
+  beep.play();
+
+  if (timerAdjustButton.get('state') == 'red-dark-light') {
+    $('#timerSet').hide();
+    timerAdjustButton.set('state', null);    
+  } else {
+    $('#timerSet').show();
+    timerAdjustButton.set('state', 'red-dark-light');
   }
 }
 
