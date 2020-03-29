@@ -198,36 +198,40 @@ function updateItems() {
 
 function homeButtonClick() {
   const beep = document.getElementById('beep2');
-  beep.play();
+  //beep.play();
 }
 
 function timerOverrideButtonClick() {
   const beep = document.getElementById('beep1');
-  beep.play();
+  //beep.play();
 
   if (timerOverrideButton.get('state') == 'red-dark-light') {
     $('#lightPowerToggle').hide();
     $('#lightOverrideText').hide();
     setLightToggleLabel();
-    timerOverrideButton.set('state', null);    
+    timerOverrideButton.set('state', null);
+    timerAdjustButton.set('state', null);    
   } else {
     $('#lightPowerToggle').show();
     $('#lightOverrideText').show();
     setLightToggleLabel();
     timerOverrideButton.set('state', 'red-dark-light');
+    timerAdjustButton.set('state', 'disabled');
   }
 }
 
 function timerAdjustButtonClick() {
   const beep = document.getElementById('beep1');
-  beep.play();
+  //beep.play();
 
   if (timerAdjustButton.get('state') == 'red-dark-light') {
     $('#timerSet').hide();
-    timerAdjustButton.set('state', null);    
+    timerAdjustButton.set('state', null);
+    timerOverrideButton.set('state', null);    
   } else {
     $('#timerSet').show();
     timerAdjustButton.set('state', 'red-dark-light');
+    timerOverrideButton.set('state', 'disabled');
   }
 }
 
@@ -293,7 +297,7 @@ function setLightToggleLabel () {
 
 function lightPowerToggleClick () {
   const beep = document.getElementById('beep4');
-  beep.play();
+  //beep.play();
 
   if (lightStatus) {
     lightStatus = false;
