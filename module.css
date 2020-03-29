@@ -154,6 +154,17 @@
   top: 45%;
   text-align: center;
   font-size: 40px;
+
+}
+
+#lightOverrideText {
+  position: absolute;
+  left: 65%;
+  top: 70%;
+  width: 30%;
+  font-size: 23px;
+  text-align: justify;
+  white-space: pre-line;
   
 }
 

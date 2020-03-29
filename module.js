@@ -77,6 +77,7 @@ var uvLightStatus = LCARS.create({type:'complexButton', id: 'uvLightStatus', sta
 ]});
 
 var lightPowerToggle = LCARS.create({type: 'button', version: 'round', color: 'bg-red-1', label: '', id: 'lightPowerToggle'});
+var lightOverrideText = LCARS.create({type: 'text', color: 'bg-purple-1', text: lightOverrideMessage, id: 'lightOverrideText'});
 
 
 $(document).ready( function(){
@@ -102,8 +103,11 @@ $(document).ready( function(){
   $('body').append((rhSoilStatus).dom);
   $('body').append((uvLightStatus).dom);
   $('body').append((lightPowerToggle).dom);
-
   $('#lightPowerToggle').hide();
+  $('body').append((lightOverrideText).dom);
+  $('#lightOverrideText').hide();
+
+  
   
 
   $('#homeButton').click(function(){homeButtonClick()});
@@ -112,7 +116,6 @@ $(document).ready( function(){
   
   setInterval(updateItems, 1000);
 
-  console.log(timerOverrideButton.get('state'));
 });
 
 function updateItems() {
@@ -133,13 +136,15 @@ function timerOverrideButtonClick() {
 
   if (timerOverrideButton.get('state') == 'red-dark-light') {
     $('#lightPowerToggle').hide();
+    $('#lightOverrideText').hide();
     setLightToggleLabel();
-    timerOverrideButton.set('state', null);
-    
+    timerOverrideButton.set('state', null);    
   } else {
     $('#lightPowerToggle').show();
+    $('#lightOverrideText').show();
     setLightToggleLabel();
     timerOverrideButton.set('state', 'red-dark-light');
+    console.log('foo');
   }
 }
 
