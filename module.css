@@ -209,6 +209,7 @@
   width: 84%;
   height: 25px;
   justify-content: space-evenly;
+  padding: 0px;
 }
 
 #timerSetScaleTop div {
@@ -229,5 +230,51 @@
   min-width: 2px;
   width: 2px;
   min-height: 2px;
+  justify-content: flex-start;
 }
 
+#timerSetScaleMiddle {
+  position: absolute;
+  left: 8%;
+  width: 84%;
+  height: 75%;
+  justify-content: space-evenly;
+  margin-left: 0px;
+}
+
+#timerSetScaleMiddle div {
+  min-width: 2px;
+  width: 2px;
+  text-align: 'left';
+  padding: 0px;
+  color: 'blue';
+}
+
+#timerSetScaleLabels {
+  position: absolute;
+  left: 10%;
+  bottom: 25px;
+  width: 80%;
+  justify-content: space-evenly;
+}
+
+#timerSetScaleMiddle div {
+  min-width: 2px;
+  width: 2px;
+}
+
+#currentTimeBar {
+  position: absolute;
+  top: 0px;
+  min-width: 2px;
+  width: 4px;
+  height: 100%;  
+}
+
+#timerBar {
+  position: absolute;
+  top: 35%;
+  left: 30%;
+  height: 45%;
+  width: 45%;
+}

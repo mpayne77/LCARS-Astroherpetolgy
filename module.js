@@ -2,31 +2,18 @@ var today = new Date();
 var lightStatus = false;
  
 var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-3', label:'LCARS', id: 'topFrame1'});
-
 var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-3', label:'ACCESS', id: 'topFrame2'});
-
 var topFrame3 = LCARS.create({type: 'bar', color:'bg-orange-4', id: 'topFrame3'});
-
 var topFrame4 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'STARDATE:', id: 'topFrame4'});
-
 var topFrame5 = LCARS.create({type: 'bar', color:'bg-orange-4', id: 'stardate', label: stardate(), id: 'topFrame5'});
-
 var pageTitle = LCARS.create({type: 'title', color:'bg-orange-3', text: 'ASTROHERPETOLOGY', id: 'pageTitle'});
-
 var bottomFrame1 = LCARS.create({type: 'elbow', color:'bg-orange-3', direction: 'top-left', id: 'bottomFrame1'});
-
 var bottomFrame2 = LCARS.create({type: 'bar', color:'bg-orange-3', id: 'bottomFrame2'});
-
 var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'TIME:', id: 'bottomFrame3'});
-
 var bottomFrame4 = LCARS.create({type: 'bar', color:'bg-orange-3', id: 'startime', label: startime(), id: 'bottomFrame4'});
-
 var homeButton = LCARS.create({type: 'button', color:'bg-purple-5', label:'HOME', id: 'homeButton'});
-
 var timerAdjustButton = LCARS.create({type: 'button', color:'bg-purple-4', label:'TIMER\nADJUST', id: 'timerAdjustButton'});
-
 var timerOverrideButton = LCARS.create({type: 'button', color:'bg-orange-4', label:'TIMER\nOVERRIDE', id: 'timerOverrideButton'});
-
 var turtlePicture = LCARS.create({type: 'img', src: 'tortoise.png', id: 'turtlePicture',});
 
 var pictureBracket = LCARS.create({type: 'defaultBracket', namespace: 'sdk', id:'pictureBracket',
@@ -80,10 +67,12 @@ var lightPowerToggle = LCARS.create({type: 'button', version: 'round', color: 'b
 var lightOverrideText = LCARS.create({type: 'text', color: 'bg-purple-1', text: lightOverrideMessage, id: 'lightOverrideText'});
 
 var timerSet = LCARS.create({type: 'wrapper', id: 'timerSet', children: [
-	{type: 'elbow', direction: 'top-left', version: 'vertical', size: 'small', color:'bg-orange-3', id: 'timerFrameTopLeft'},	
-	{type: 'elbow', direction: 'bottom-left', version: 'vertical', size: 'small', color:'bg-orange-3', id: 'timerFrameBottomLeft'},	
-	{type: 'elbow', direction: 'bottom-right', version: 'vertical', size: 'small', color:'bg-orange-3', id: 'timerFrameBottomRight'},	
-  {type: 'elbow', direction: 'top-right', version: 'vertical', size: 'small', color:'bg-orange-3', id: 'timerFrameTopRight'},	
+	{type: 'elbow', direction: 'top-left', version: 'vertical', size: 'small', color:'bg-orange-4', id: 'timerFrameTopLeft'},	
+	{type: 'elbow', direction: 'bottom-left', version: 'vertical', size: 'small', color:'bg-orange-4', id: 'timerFrameBottomLeft'},	
+	{type: 'elbow', direction: 'bottom-right', version: 'vertical', size: 'small', color:'bg-orange-4', id: 'timerFrameBottomRight'},	
+  {type: 'elbow', direction: 'top-right', version: 'vertical', size: 'small', color:'bg-orange-4', id: 'timerFrameTopRight'},	
+  {type: 'bar', color: 'bg-orange-3', id: 'timerBar'},
+  {type: 'bar', color: 'bg-green-2', id: 'currentTimeBar'},
   {type: 'row', flex: 'h', id: 'timerSetScaleTop', children: [
     {type: 'bar', color: 'bg-purple-1'},
     {type: 'bar', color: 'bg-purple-1'},
@@ -136,6 +125,44 @@ var timerSet = LCARS.create({type: 'wrapper', id: 'timerSet', children: [
     {type: 'bar', color: 'bg-purple-1'},
     {type: 'bar', color: 'bg-purple-1'},
   ]},
+  {type: 'row', flex: 'h', id: 'timerSetScaleMiddle', children: [
+    {type: 'bar', color: 'bg-purple-1', children: [
+      {type: 'text', color: 'bg-purple-1', 'text': '0000', style: {'padding-left': '2px', 'padding-top': '5px'}}
+    ]},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', children: [
+      {type: 'text', color: 'bg-purple-1', 'text': '0400', style: {'padding-left': '2px', 'padding-top': '5px'}}
+    ]},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', children: [
+      {type: 'text', color: 'bg-purple-1', 'text': '0800', style: {'padding-left': '2px', 'padding-top': '5px'}}
+    ]},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', children: [
+      {type: 'text', color: 'bg-purple-1', 'text': '1200', style: {'padding-left': '2px', 'padding-top': '5px'}}
+    ]},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', children: [
+      {type: 'text', color: 'bg-purple-1', 'text': '1600', style: {'padding-left': '2px', 'padding-top': '5px'}}
+    ]},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', children: [
+      {type: 'text', color: 'bg-purple-1', 'text': '2000', style: {'padding-left': '2px', 'padding-top': '5px'}}
+    ]},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+    {type: 'bar', color: 'bg-purple-1', style: {'opacity':'0'}},
+  ]},
 ]});
 
 
@@ -181,6 +208,7 @@ $(document).ready( function(){
 
 function updateItems() {
   bottomFrame4.set('label', startime());
+  setTimeBarPostion();
 
   if (lightStatus) {
     uvLightStatus.set('state', 'blink');
@@ -237,9 +265,9 @@ function timerAdjustButtonClick() {
 
 function stardate() {
   var today = new Date;
-  var sdYear = today.getUTCFullYear();
-  var sdMonth = today.getUTCMonth() + 1;
-  var sdDate = today.getUTCDate();
+  var sdYear = today.getFullYear();
+  var sdMonth = today.getMonth() + 1;
+  var sdDate = today.getDate();
   
   var strSDyear = sdYear.toString();
   var strSDmonth = sdMonth.toString();
@@ -250,27 +278,15 @@ function stardate() {
   if (sdDate < 10) {
     strSDdate = '0' + strSDdate;
   }
-
-  var sdHours = today.getUTCHours();
-  var sdMinutes = today.getUTCMinutes();
-  var strSDhours = sdHours.toString();
-  if (sdHours < 10) {
-    strSDhours = '0' + strSDhours;
-  }
-  var strSDminutes = sdMinutes.toString();
-  if (sdMinutes < 10) {
-    strSDminutes = '0' + strSDminutes;
-  }
-
   return strSDyear + '.' + strSDmonth + '.' + strSDdate;
 }
 
 function startime() {
   var today = new Date;
 
-  var sdHours = today.getUTCHours();
-  var sdMinutes = today.getUTCMinutes();
-  var sdSeconds = today.getUTCSeconds();
+  var sdHours = today.getHours();
+  var sdMinutes = today.getMinutes();
+  var sdSeconds = today.getSeconds();
   var strSDhours = sdHours.toString();
   if (sdHours < 10) {
     strSDhours = '0' + strSDhours;
@@ -285,6 +301,14 @@ function startime() {
   }
 
   return strSDhours + ':' + strSDminutes + ':' + strSDseconds;
+}
+
+function setTimeBarPostion() {
+  var today = new Date;
+  var minutesElapsed = 60*today.getHours() + today.getMinutes();
+  var proportionElapsed = minutesElapsed / (24*60);
+  var pctPosition = 10 + proportionElapsed*84;
+  $('#currentTimeBar').css('left', pctPosition.toString() + '%');
 }
 
 function setLightToggleLabel () {
