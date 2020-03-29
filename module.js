@@ -66,7 +66,7 @@ var uvLightStatus = LCARS.create({type:'complexButton', id: 'uvLightStatus', chi
 var lightPowerToggle = LCARS.create({type: 'button', version: 'round', color: 'bg-red-1', label: '', id: 'lightPowerToggle'});
 var lightOverrideText = LCARS.create({type: 'text', color: 'bg-purple-1', text: lightOverrideMessage, id: 'lightOverrideText'});
 
-var timerSet = LCARS.create({type: 'wrapper', id: 'timerSet', children: [
+var timerSetGraph = LCARS.create({type: 'wrapper', id: 'timerSetGraph', children: [
 	{type: 'elbow', direction: 'top-left', version: 'vertical', size: 'small', color:'bg-orange-4', id: 'timerFrameTopLeft'},	
 	{type: 'elbow', direction: 'bottom-left', version: 'vertical', size: 'small', color:'bg-orange-4', id: 'timerFrameBottomLeft'},	
 	{type: 'elbow', direction: 'bottom-right', version: 'vertical', size: 'small', color:'bg-orange-4', id: 'timerFrameBottomRight'},	
@@ -192,8 +192,8 @@ $(document).ready( function(){
   $('#lightPowerToggle').hide();
   $('body').append((lightOverrideText).dom);
   $('#lightOverrideText').hide();
-  $('body').append((timerSet).dom);
-  $('#timerSet').hide();
+  $('body').append((timerSetGraph).dom);
+  $('#timerSetGraph').hide();
   
   
 
@@ -209,7 +209,6 @@ $(document).ready( function(){
 function updateItems() {
   bottomFrame4.set('label', startime());
   setTimeBarPostion();
-
   if (lightStatus) {
     uvLightStatus.set('state', 'blink');
     uvLightStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
@@ -232,7 +231,6 @@ function homeButtonClick() {
 function timerOverrideButtonClick() {
   const beep = document.getElementById('beep1');
   //beep.play();
-
   if (timerOverrideButton.get('state') == 'red-dark-light') {
     $('#lightPowerToggle').hide();
     $('#lightOverrideText').hide();
@@ -253,11 +251,11 @@ function timerAdjustButtonClick() {
   //beep.play();
 
   if (timerAdjustButton.get('state') == 'red-dark-light') {
-    $('#timerSet').hide();
+    $('#timerSetGraph').hide();
     timerAdjustButton.set('state', null);
     timerOverrideButton.set('state', null);    
   } else {
-    $('#timerSet').show();
+    $('#timerSetGraph').show();
     timerAdjustButton.set('state', 'red-dark-light');
     timerOverrideButton.set('state', 'disabled');
   }
@@ -268,7 +266,6 @@ function stardate() {
   var sdYear = today.getFullYear();
   var sdMonth = today.getMonth() + 1;
   var sdDate = today.getDate();
-  
   var strSDyear = sdYear.toString();
   var strSDmonth = sdMonth.toString();
   if (sdMonth < 10) {
@@ -283,7 +280,6 @@ function stardate() {
 
 function startime() {
   var today = new Date;
-
   var sdHours = today.getHours();
   var sdMinutes = today.getMinutes();
   var sdSeconds = today.getSeconds();
@@ -307,7 +303,7 @@ function setTimeBarPostion() {
   var today = new Date;
   var minutesElapsed = 60*today.getHours() + today.getMinutes();
   var proportionElapsed = minutesElapsed / (24*60);
-  var pctPosition = 10 + proportionElapsed*84;
+  var pctPosition = 10 + proportionElapsed*83;
   $('#currentTimeBar').css('left', pctPosition.toString() + '%');
 }
 
@@ -322,7 +318,6 @@ function setLightToggleLabel () {
 function lightPowerToggleClick () {
   const beep = document.getElementById('beep4');
   //beep.play();
-
   if (lightStatus) {
     lightStatus = false;
     setLightToggleLabel();
