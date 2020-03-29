@@ -123,11 +123,8 @@ function updateItems() {
 }
 
 function homeButtonClick() {
-  console.log("Home button clicked");
-
   const beep = document.getElementById('beep2');
   beep.play();
-
 }
 
 function timerOverrideButtonClick() {
@@ -144,7 +141,6 @@ function timerOverrideButtonClick() {
     $('#lightOverrideText').show();
     setLightToggleLabel();
     timerOverrideButton.set('state', 'red-dark-light');
-    console.log('foo');
   }
 }
 
@@ -164,8 +160,6 @@ function stardate() {
     strSDdate = '0' + strSDdate;
   }
 
-  console.log(strSDyear + strSDmonth + strSDdate);
-
   var sdHours = today.getUTCHours();
   var sdMinutes = today.getUTCMinutes();
   var strSDhours = sdHours.toString();
@@ -177,10 +171,7 @@ function stardate() {
     strSDminutes = '0' + strSDminutes;
   }
 
-  console.log(strSDhours + strSDminutes);
-
   return strSDyear + '.' + strSDmonth + '.' + strSDdate;
-
 }
 
 function startime() {
@@ -203,7 +194,6 @@ function startime() {
   }
 
   return strSDhours + ':' + strSDminutes + ':' + strSDseconds;
-
 }
 
 function setLightToggleLabel () {
@@ -215,13 +205,13 @@ function setLightToggleLabel () {
 }
 
 function lightPowerToggleClick () {
+  const beep = document.getElementById('beep4');
+  beep.play();
+
   if (lightStatus) {
-    console.log('Turning light off');
     lightStatus = false;
     setLightToggleLabel();
-
   } else {
-    console.log('Turning light on');
     lightStatus = true;
     setLightToggleLabel();
   }
