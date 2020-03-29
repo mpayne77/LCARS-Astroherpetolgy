@@ -70,10 +70,10 @@ var rhSoilStatus = LCARS.create({type:'complexButton', id: 'rhSoilStatus', child
   {type: 'cap', version: 'round-right', color: 'bg-purple-3', id: 'rhSoilCap'}
 ]});
 
-var uvLightStatus = LCARS.create({type:'complexButton', id: 'uvLightStatus', state: 'blink', children: [
-  {type: 'button', version: 'round-left', color: 'bg-blue-1', label: 'UV\nINTENSITY', id: 'uvLightButton'}, 
+var uvLightStatus = LCARS.create({type:'complexButton', id: 'uvLightStatus', children: [
+  {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'UV\nINTENSITY', id: 'uvLightButton'}, 
   {type: 'title', color: 'bg-grey-1', text: '21', id: 'uvLightText'}, 
-  {type: 'cap', version: 'round-right', color: 'bg-blue-1 ', id: 'uvLightCap'}
+  {type: 'cap', version: 'round-right', color: 'bg-purple-4 ', id: 'uvLightCap'}
 ]});
 
 var lightPowerToggle = LCARS.create({type: 'button', version: 'round', color: 'bg-red-1', label: '', id: 'lightPowerToggle'});
@@ -120,6 +120,19 @@ $(document).ready( function(){
 
 function updateItems() {
   bottomFrame4.set('label', startime());
+
+  if (lightStatus) {
+    uvLightStatus.set('state', 'blink');
+    uvLightStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
+    tempLightStatus.set('state', 'blink');
+    tempLightStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
+  }
+  else {
+    uvLightStatus.set('state', null);
+    uvLightStatus.set('colors', ['bg-purple-4', 'bg-grey-1', 'bg-purple-4']);
+    tempLightStatus.set('state', null);
+    tempLightStatus.set('colors', ['bg-purple-3', 'bg-grey-1', 'bg-purple-3']);
+  }
 }
 
 function homeButtonClick() {
