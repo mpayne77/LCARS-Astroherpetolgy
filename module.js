@@ -165,6 +165,19 @@ var timerSetGraph = LCARS.create({type: 'wrapper', id: 'timerSetGraph', children
   ]},
 ]});
 
+var timerSet = LCARS.create({type: 'row', flexc: 'h', id: 'timerSet', children: [
+  {type: 'column', flexc: 'v', children: [
+    {type: 'button', version: 'round', color: 'bg-green-2', label: 'LIGHT ON +', id: 'onInc'},
+    {type: 'title', color: 'bg-grey-1', text: '00:00', id: 'onTime'},
+    {type: 'button', version: 'round', color: 'bg-green-2', label: 'LIGHT ON -', id: 'onDec'},
+  ]},
+  {type: 'column', flexc: 'v', children: [
+    {type: 'button', version: 'round', color: 'bg-green-4', label: 'LIGHT OFF +', id: 'offInc'},
+    {type: 'title', color: 'bg-grey-1', text: '00:00', id: 'offTime'},
+    {type: 'button', version: 'round', color: 'bg-green-4', label: 'LIGHT OFF -', id: 'offDec'},
+  ]},
+]});
+
 
 $(document).ready( function(){
   $('body').append((topFrame1).dom);
@@ -194,6 +207,8 @@ $(document).ready( function(){
   $('#lightOverrideText').hide();
   $('body').append((timerSetGraph).dom);
   $('#timerSetGraph').hide();
+  $('body').append((timerSet).dom);
+  $('#timerSet').hide();
   
   
 
@@ -252,10 +267,12 @@ function timerAdjustButtonClick() {
 
   if (timerAdjustButton.get('state') == 'red-dark-light') {
     $('#timerSetGraph').hide();
+    $('#timerSet').hide();
     timerAdjustButton.set('state', null);
     timerOverrideButton.set('state', null);    
   } else {
     $('#timerSetGraph').show();
+    $('#timerSet').show();
     timerAdjustButton.set('state', 'red-dark-light');
     timerOverrideButton.set('state', 'disabled');
   }

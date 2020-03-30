@@ -176,7 +176,7 @@
 #timerSetGraph {
   position: absolute;
   left: 63%;
-  top: 45%;
+  top: 40%;
   width: 34%;
   height: 20%;
 }
@@ -277,4 +277,20 @@
   left: 30%;
   height: 45%;
   width: 45%;
+}
+
+#timerSet {
+  position: absolute;
+  top: 65%;
+  left: 63%;
+  width: 34%;
+  height: 25%;
+  justify-content: space-evenly;
+}
+
+#timerSet div {
+  text-align: center;
+  vertical-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
 }
