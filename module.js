@@ -225,6 +225,7 @@ $(document).ready( function(){
   $('#offDec').click(function(){offDecClick()});
   
   setInterval(updateItems, 1000);
+  updateTimerBar(onTime, offTime);
 
 });
 
@@ -353,72 +354,46 @@ function lightPowerToggleClick () {
 }
 
 function onIncClick () {
-  if (onTime < 96 && onTime < offTime) {
-    onTime++;
-  }
-  var onTimeHours = Math.floor(onTime/4);
-  var onTimeMinutes = onTime*15 - onTimeHours*60;
-  var strOnTimeHours = onTimeHours.toString();
-  if (onTimeHours < 10) {
-    strOnTimeHours = '0' + onTimeHours;
-  }
-  var strOnTimeMinutes = onTimeMinutes.toString();
-  if (onTimeMinutes < 10) {
-    strOnTimeMinutes = '0' + strOnTimeMinutes;
-  }
-  $('#onTime').html(strOnTimeHours + ':' + strOnTimeMinutes);
+  if (onTime < 96 && onTime < offTime-1) {onTime++;}
+  $('#onTime').html(parseTime(onTime));
+  updateTimerBar(onTime, offTime);
 }
 
 function onDecClick () {
-  if (onTime > 0) {
-    onTime--;
-  }
-  var onTimeHours = Math.floor(onTime/4);
-  var onTimeMinutes = onTime*15 - onTimeHours*60;
-  var strOnTimeHours = onTimeHours.toString();
-  if (onTimeHours < 10) {
-    strOnTimeHours = '0' + onTimeHours;
-  }
-  var strOnTimeMinutes = onTimeMinutes.toString();
-  if (onTimeMinutes < 10) {
-    strOnTimeMinutes = '0' + strOnTimeMinutes;
-  }
-  $('#onTime').html(strOnTimeHours + ':' + strOnTimeMinutes);
+  if (onTime > 0) {onTime--;}
+  $('#onTime').html(parseTime(onTime));
+  updateTimerBar(onTime, offTime);
 }
 
 function offIncClick () {
-  if (offTime < 24*4) {
-    offTime++;
-  }
-  var offTimeHours = Math.floor(offTime/4);
-  var offTimeMinutes = offTime*15 - offTimeHours*60;
-  var strOffTimeHours = offTimeHours.toString();
-  if (offTimeHours < 10) {
-    strOffTimeHours = '0' + offTimeHours;
-  }
-  var strOffTimeMinutes = offTimeMinutes.toString();
-  if (offTimeMinutes < 10) {
-    strOffTimeMinutes = '0' + strOffTimeMinutes;
-  }
-  $('#offTime').html(strOffTimeHours + ':' + strOffTimeMinutes);
+  if (offTime < 24*4) {offTime++;}
+  $('#offTime').html(parseTime(offTime));
+  updateTimerBar(onTime, offTime);
 }
 
 function offDecClick () {
-  if (offTime > onTime) {
-    offTime--;
-  }
-  var offTimeHours = Math.floor(offTime/4);
-  var offTimeMinutes = offTime*15 - offTimeHours*60;
-  var strOffTimeHours = offTimeHours.toString();
-  if (offTimeHours < 10) {
-    strOffTimeHours = '0' + offTimeHours;
-  }
-  var strOffTimeMinutes = offTimeMinutes.toString();
-  if (offTimeMinutes < 10) {
-    strOffTimeMinutes = '0' + strOffTimeMinutes;
-  }
-  $('#offTime').html(strOffTimeHours + ':' + strOffTimeMinutes);
+  if (offTime > onTime+1) {offTime--;}
+  $('#offTime').html(parseTime(offTime));
+  updateTimerBar(onTime, offTime);
 }
 
+function parseTime (timeIndex) {
+  var hours = Math.floor(timeIndex/4);
+  var minutes = Math.floor(timeIndex*15 - hours*60);
+  var strHours = hours.toString();
+  if (hours < 10) {
+    strHours = '0' + strHours;
+  }
+  var strMinutes = minutes.toString();
+  if (minutes < 10) {
+    strMinutes = '0' + strMinutes;
+  }
+  return strHours + ':' + strMinutes;
+}
 
-
+function updateTimerBar(onTime, offTime) {
+  var startPos = 10 + onTime*83/96;
+  var barLength = (offTime-onTime)*83/96;
+  $('#timerBar').css('left', startPos.toString() + '%');  
+  $('#timerBar').css('width', barLength.toString() + '%');
+}

@@ -273,6 +273,7 @@
 
 #timerBar {
   position: absolute;
+  min-width: 2px;
   top: 35%;
   left: 30%;
   height: 45%;
