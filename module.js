@@ -1,5 +1,7 @@
 var today = new Date();
 var lightStatus = false;
+var onTime = 0;
+var offTime = 1;
  
 var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-3', label:'LCARS', id: 'topFrame1'});
 var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-3', label:'ACCESS', id: 'topFrame2'});
@@ -216,6 +218,11 @@ $(document).ready( function(){
   $('#timerAdjustButton').click(function(){timerAdjustButtonClick()});
   $('#timerOverrideButton').click(function(){timerOverrideButtonClick()});
   $('#lightPowerToggle').click(function(){lightPowerToggleClick()});
+
+  $('#onInc').click(function(){onIncClick()});
+  $('#offInc').click(function(){offIncClick()});
+  $('#onDec').click(function(){onDecClick()});
+  $('#offDec').click(function(){offDecClick()});
   
   setInterval(updateItems, 1000);
 
@@ -236,6 +243,7 @@ function updateItems() {
     tempLightStatus.set('state', null);
     tempLightStatus.set('colors', ['bg-purple-3', 'bg-grey-1', 'bg-purple-3']);
   }
+  
 }
 
 function homeButtonClick() {
@@ -343,3 +351,74 @@ function lightPowerToggleClick () {
     setLightToggleLabel();
   }
 }
+
+function onIncClick () {
+  if (onTime < 96 && onTime < offTime) {
+    onTime++;
+  }
+  var onTimeHours = Math.floor(onTime/4);
+  var onTimeMinutes = onTime*15 - onTimeHours*60;
+  var strOnTimeHours = onTimeHours.toString();
+  if (onTimeHours < 10) {
+    strOnTimeHours = '0' + onTimeHours;
+  }
+  var strOnTimeMinutes = onTimeMinutes.toString();
+  if (onTimeMinutes < 10) {
+    strOnTimeMinutes = '0' + strOnTimeMinutes;
+  }
+  $('#onTime').html(strOnTimeHours + ':' + strOnTimeMinutes);
+}
+
+function onDecClick () {
+  if (onTime > 0) {
+    onTime--;
+  }
+  var onTimeHours = Math.floor(onTime/4);
+  var onTimeMinutes = onTime*15 - onTimeHours*60;
+  var strOnTimeHours = onTimeHours.toString();
+  if (onTimeHours < 10) {
+    strOnTimeHours = '0' + onTimeHours;
+  }
+  var strOnTimeMinutes = onTimeMinutes.toString();
+  if (onTimeMinutes < 10) {
+    strOnTimeMinutes = '0' + strOnTimeMinutes;
+  }
+  $('#onTime').html(strOnTimeHours + ':' + strOnTimeMinutes);
+}
+
+function offIncClick () {
+  if (offTime < 24*4) {
+    offTime++;
+  }
+  var offTimeHours = Math.floor(offTime/4);
+  var offTimeMinutes = offTime*15 - offTimeHours*60;
+  var strOffTimeHours = offTimeHours.toString();
+  if (offTimeHours < 10) {
+    strOffTimeHours = '0' + offTimeHours;
+  }
+  var strOffTimeMinutes = offTimeMinutes.toString();
+  if (offTimeMinutes < 10) {
+    strOffTimeMinutes = '0' + strOffTimeMinutes;
+  }
+  $('#offTime').html(strOffTimeHours + ':' + strOffTimeMinutes);
+}
+
+function offDecClick () {
+  if (offTime > onTime) {
+    offTime--;
+  }
+  var offTimeHours = Math.floor(offTime/4);
+  var offTimeMinutes = offTime*15 - offTimeHours*60;
+  var strOffTimeHours = offTimeHours.toString();
+  if (offTimeHours < 10) {
+    strOffTimeHours = '0' + offTimeHours;
+  }
+  var strOffTimeMinutes = offTimeMinutes.toString();
+  if (offTimeMinutes < 10) {
+    strOffTimeMinutes = '0' + strOffTimeMinutes;
+  }
+  $('#offTime').html(strOffTimeHours + ':' + strOffTimeMinutes);
+}
+
+
+
