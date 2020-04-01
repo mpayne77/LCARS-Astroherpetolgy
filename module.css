@@ -295,3 +295,17 @@
   padding-left: 5px;
   padding-right: 5px;
 }
+
+#infoText {
+  position: absolute;
+  left: 63%;
+  top: 45%;
+  width: 35%;
+}
+
+#infoText div {
+  letter-spacing: -1px;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 23px;
+}

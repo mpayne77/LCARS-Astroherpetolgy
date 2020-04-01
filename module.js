@@ -180,8 +180,39 @@ var timerSet = LCARS.create({type: 'row', flexc: 'h', id: 'timerSet', children: 
   ]},
 ]});
 
+var infoText = LCARS.create({type: 'column', flex: 'v', id: 'infoText', children: [
+  {type: 'row', flex: 'h', children: [
+    {type: 'oval', color: 'bg-purple-1', size: 'small'},
+    {type: 'text', color: 'bg-purple-2', text: textInfo1},
+  ]},
+  {type: 'row', flex: 'h', children: [
+    {type: 'oval', color: 'bg-purple-1', size: 'small'},
+    {type: 'text', color: 'bg-purple-2', text: textInfo2},
+  ]},
+  {type: 'row', flex: 'h', children: [
+    {type: 'oval', color: 'bg-purple-1', size: 'small'},
+    {type: 'text', color: 'bg-purple-2', text: textInfo2a},
+  ]},
+  {type: 'row', flex: 'h', children: [
+    {type: 'oval', color: 'bg-purple-1', size: 'small'},
+    {type: 'text', color: 'bg-purple-2', text: textInfo3},
+  ]},
+  {type: 'row', flex: 'h', children: [
+    {type: 'oval', color: 'bg-purple-1', size: 'small'},
+    {type: 'text', color: 'bg-purple-2', text: textInfo4},
+  ]},
+  {type: 'row', flex: 'h', children: [
+    {type: 'oval', color: 'bg-purple-1', size: 'small'},
+    {type: 'text', color: 'bg-purple-2', text: textInfo5},
+  ]},
+  {type: 'row', flex: 'h', children: [
+    {type: 'oval', color: 'bg-purple-1', size: 'small'},
+    {type: 'text', color: 'bg-purple-2', text: textInfo6},
+  ]},
+]});
 
-$(document).ready( function(){
+
+$(document).ready(function(){
   $('body').append((topFrame1).dom);
   $('body').append((topFrame2).dom);
   $('body').append((topFrame3).dom);
@@ -211,6 +242,8 @@ $(document).ready( function(){
   $('#timerSetGraph').hide();
   $('body').append((timerSet).dom);
   $('#timerSet').hide();
+
+  $('body').append((infoText).dom);
   
   
 
@@ -258,10 +291,12 @@ function timerOverrideButtonClick() {
   if (timerOverrideButton.get('state') == 'red-dark-light') {
     $('#lightPowerToggle').hide();
     $('#lightOverrideText').hide();
+    $('#infoText').show();
     setLightToggleLabel();
     timerOverrideButton.set('state', null);
     timerAdjustButton.set('state', null);    
   } else {
+    $('#infoText').hide();
     $('#lightPowerToggle').show();
     $('#lightOverrideText').show();
     setLightToggleLabel();
@@ -277,9 +312,11 @@ function timerAdjustButtonClick() {
   if (timerAdjustButton.get('state') == 'red-dark-light') {
     $('#timerSetGraph').hide();
     $('#timerSet').hide();
+    $('#infoText').show();
     timerAdjustButton.set('state', null);
     timerOverrideButton.set('state', null);    
   } else {
+    $('#infoText').hide();
     $('#timerSetGraph').show();
     $('#timerSet').show();
     timerAdjustButton.set('state', 'red-dark-light');
