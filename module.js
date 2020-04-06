@@ -1,5 +1,5 @@
 var today = new Date();
-var lightStatus = false;
+var lightStatus = 'UNKNOWN';
 var onTime = 0;
 var offTime = 1;
  
@@ -265,18 +265,27 @@ $(document).ready(function(){
 function updateItems() {
   bottomFrame4.set('label', startime());
   setTimeBarPostion();
-  if (lightStatus) {
+  $.get('http://192.168.1.219/', function(data) {
+    let jsonData = JSON.parse(data);
+    console.log(jsonData);
+    lightStatus = jsonData.lightStatus;
+    
+  });
+  if (lightStatus === 'ON') {
     uvLightStatus.set('state', 'blink');
     uvLightStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
     tempLightStatus.set('state', 'blink');
     tempLightStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
+    lightPowerToggle.set('label', 'TURN LIGHT OFF');
   }
   else {
     uvLightStatus.set('state', null);
     uvLightStatus.set('colors', ['bg-purple-4', 'bg-grey-1', 'bg-purple-4']);
     tempLightStatus.set('state', null);
     tempLightStatus.set('colors', ['bg-purple-3', 'bg-grey-1', 'bg-purple-3']);
+    lightPowerToggle.set('label', 'TURN LIGHT ON');
   }
+
   
 }
 
@@ -292,14 +301,14 @@ function timerOverrideButtonClick() {
     $('#lightPowerToggle').hide();
     $('#lightOverrideText').hide();
     $('#infoText').show();
-    setLightToggleLabel();
+    //setLightToggleLabel();
     timerOverrideButton.set('state', null);
     timerAdjustButton.set('state', null);    
   } else {
     $('#infoText').hide();
     $('#lightPowerToggle').show();
     $('#lightOverrideText').show();
-    setLightToggleLabel();
+    //setLightToggleLabel();
     timerOverrideButton.set('state', 'red-dark-light');
     timerAdjustButton.set('state', 'disabled');
   }
@@ -370,23 +379,25 @@ function setTimeBarPostion() {
   $('#currentTimeBar').css('left', pctPosition.toString() + '%');
 }
 
-function setLightToggleLabel () {
-  if (lightStatus) {
+/* function setLightToggleLabel () {
+  if (lightStatus === 'ON') {
     lightPowerToggle.set('label', 'TURN LIGHT OFF');
   } else {
     lightPowerToggle.set('label', 'TURN LIGHT ON');
   }
 }
-
+ */
 function lightPowerToggleClick () {
   const beep = document.getElementById('beep4');
   //beep.play();
-  if (lightStatus) {
-    lightStatus = false;
-    setLightToggleLabel();
+  if (lightStatus === 'ON') {
+    $.get('http://192.168.1.219/LIGHT-OFF');
+    updateItems();
+    //setLightToggleLabel();
   } else {
-    lightStatus = true;
-    setLightToggleLabel();
+    $.get('http://192.168.1.219/LIGHT-ON');
+    updateItems();
+    //setLightToggleLabel();
   }
 }
 

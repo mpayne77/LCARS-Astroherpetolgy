@@ -137,10 +137,10 @@ void loop() {
         }
 
         // Check to see if the client request was "GET /H" or "GET /L":
-        if (currentLine.endsWith("GET /H")) {
+        if (currentLine.endsWith("GET /LIGHT-ON")) {
           digitalWrite(6, HIGH);               // GET /H turns the LED on
         }
-        if (currentLine.endsWith("GET /L")) {
+        if (currentLine.endsWith("GET /LIGHT-OFF")) {
           digitalWrite(6, LOW);                // GET /L turns the LED off
         }
       }
