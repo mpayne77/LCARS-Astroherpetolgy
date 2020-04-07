@@ -37,6 +37,7 @@ WiFiServer server(80);
 
 RTCZero rtc;
 
+int tzAdjust = -5;
 int timerLow = 24;
 int timerHigh = 80;
 
@@ -71,11 +72,8 @@ void setup() {
   server.begin();                           // start the web server on port 80
   printWifiStatus();                        // you're connected now, so print out the status
 
-  rtc.begin();
-
-  unsigned long epoch;
-  epoch = WiFi.getTime();
-  rtc.setEpoch(epoch);
+  setClock();
+  
 }
 
 
@@ -166,6 +164,13 @@ void loop() {
     client.stop();
     //Serial.println("client disonnected");
   }
+}
+
+void setClock() {
+  rtc.begin();
+  unsigned long epoch;
+  epoch = WiFi.getTime();
+  rtc.setEpoch(epoch + tzAdjust*3600);
 }
 
 void printWifiStatus() {
