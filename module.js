@@ -269,8 +269,8 @@ function updateItems() {
     let jsonData = JSON.parse(data);
     console.log(jsonData);
     lightStatus = jsonData.lightStatus;
-    
   });
+  
   if (lightStatus === 'ON') {
     uvLightStatus.set('state', 'blink');
     uvLightStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
@@ -379,25 +379,15 @@ function setTimeBarPostion() {
   $('#currentTimeBar').css('left', pctPosition.toString() + '%');
 }
 
-/* function setLightToggleLabel () {
-  if (lightStatus === 'ON') {
-    lightPowerToggle.set('label', 'TURN LIGHT OFF');
-  } else {
-    lightPowerToggle.set('label', 'TURN LIGHT ON');
-  }
-}
- */
 function lightPowerToggleClick () {
   const beep = document.getElementById('beep4');
   //beep.play();
   if (lightStatus === 'ON') {
     $.get('http://192.168.1.219/LIGHT-OFF');
     updateItems();
-    //setLightToggleLabel();
   } else {
     $.get('http://192.168.1.219/LIGHT-ON');
     updateItems();
-    //setLightToggleLabel();
   }
 }
 

@@ -37,6 +37,9 @@ WiFiServer server(80);
 
 RTCZero rtc;
 
+int timerLow;
+int timerHigh;
+
 void setup() {
   Serial.begin(9600);      // initialize serial communication
   pinMode(6, OUTPUT);      // set the LED pin mode
@@ -139,9 +142,22 @@ void loop() {
         // Check to see if the client request was "GET /H" or "GET /L":
         if (currentLine.endsWith("GET /LIGHT-ON")) {
           digitalWrite(6, HIGH);               // GET /H turns the LED on
+          Serial.println("Light on");
         }
         if (currentLine.endsWith("GET /LIGHT-OFF")) {
           digitalWrite(6, LOW);                // GET /L turns the LED off
+          Serial.println("Light off");
+        }
+        if (currentLine.startsWith("GET") && currentLine.endsWith("SETTIMER")) {
+          //Serial.println("Set timer");
+          String strTimerLow = currentLine.substring(5, 7);
+          //Serial.println(strTimerLow);
+          timerLow = strTimerLow.toInt();
+          Serial.println(timerLow);
+          String strTimerHigh = currentLine.substring(8, 10);
+          //Serial.println(strTimerHigh);
+          timerHigh = strTimerHigh.toInt();
+          Serial.println(timerHigh);
         }
       }
     }
