@@ -30,15 +30,15 @@
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
 char ssid[] = SECRET_SSID;        // your network SSID (name)
 char pass[] = SECRET_PASS;    // your network password (use for WPA, or use as key for WEP)
-int keyIndex = 0;                 // your network key Index number (needed only for WEP)
+//int keyIndex = 0;                 // your network key Index number (needed only for WEP)
 
 int status = WL_IDLE_STATUS;
 WiFiServer server(80);
 
 RTCZero rtc;
 
-int timerLow;
-int timerHigh;
+int timerLow = 24;
+int timerHigh = 80;
 
 void setup() {
   Serial.begin(9600);      // initialize serial communication
@@ -85,6 +85,7 @@ void loop() {
   if (client) {                             // if you get a client,
     //Serial.println("new client");           // print a message out the serial port
     String currentLine = "";                // make a String to hold incoming data from the client
+    StaticJsonDocument<200> jsonDoc;        // JSON document for output
     while (client.connected()) {            // loop while the client's connected
       if (client.available()) {             // if there's bytes to read from the client,
         char c = client.read();             // read a byte, then
@@ -105,14 +106,13 @@ void loop() {
             //client.print("Click <a href=\"/H\">here</a> turn the LED on pin 6 on<br>");
             //client.print("Click <a href=\"/L\">here</a> turn the LED on pin 6 off<br>");
 
-            StaticJsonDocument<200> jsonDoc;
-            jsonDoc["lightStatus"] = "NULL";
-
             if(digitalRead(6)) {
               jsonDoc["lightStatus"] = "ON";
             } else {
               jsonDoc["lightStatus"] = "OFF";
             }
+            jsonDoc["timerLow"] = timerLow;
+            jsonDoc["timerHigh"] = timerHigh;
             String hours = String(rtc.getHours());
             if (hours.length() < 2) {
               hours = "0" + hours;
@@ -139,25 +139,26 @@ void loop() {
           currentLine += c;      // add it to the end of the currentLine
         }
 
-        // Check to see if the client request was "GET /H" or "GET /L":
+        // Parse client request:
         if (currentLine.endsWith("GET /LIGHT-ON")) {
-          digitalWrite(6, HIGH);               // GET /H turns the LED on
+          digitalWrite(6, HIGH);               
           Serial.println("Light on");
         }
         if (currentLine.endsWith("GET /LIGHT-OFF")) {
-          digitalWrite(6, LOW);                // GET /L turns the LED off
+          digitalWrite(6, LOW);                
           Serial.println("Light off");
         }
         if (currentLine.startsWith("GET") && currentLine.endsWith("SETTIMER")) {
           //Serial.println("Set timer");
-          String strTimerLow = currentLine.substring(5, 7);
+          String strTimerLow = currentLine.substring(5, 7); // ON time is chars 5 and 6
           //Serial.println(strTimerLow);
           timerLow = strTimerLow.toInt();
           Serial.println(timerLow);
-          String strTimerHigh = currentLine.substring(8, 10);
+          String strTimerHigh = currentLine.substring(8, 10); // OFF time is chars 8 and 8
           //Serial.println(strTimerHigh);
           timerHigh = strTimerHigh.toInt();
           Serial.println(timerHigh);
+
         }
       }
     }
