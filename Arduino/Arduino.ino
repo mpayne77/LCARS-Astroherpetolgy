@@ -40,6 +40,8 @@ RTCZero rtc;
 int tzAdjust = -5;
 int timerLow = 24;
 int timerHigh = 80;
+String mode = "NORMAL";
+int timeIndex = 0;
 
 void setup() {
   Serial.begin(9600);      // initialize serial communication
@@ -66,18 +68,27 @@ void setup() {
     status = WiFi.begin(ssid, pass);
     // wait 10 seconds for connection:
     delay(10000);
-
-
   }
   server.begin();                           // start the web server on port 80
   printWifiStatus();                        // you're connected now, so print out the status
 
   setClock();
-  
+  calcTimeIndex();
 }
 
 
 void loop() {
+  // Check time and toggle light accordingly
+  if (mode != "TIMEROVERRIDE") {
+    calcTimeIndex();
+    if (timeIndex >= timerLow && timeIndex < timerHigh) {
+      digitalWrite(6, HIGH);
+    }
+    else {
+      digitalWrite(6, LOW);
+    }
+  }
+  
   WiFiClient client = server.available();   // listen for incoming clients
 
   if (client) {                             // if you get a client,
@@ -124,9 +135,10 @@ void loop() {
               seconds = "0" + seconds;
             }
             jsonDoc["time"] = hours + ":" + minutes + ":" + seconds;
+            jsonDoc["mode"] = mode;
             serializeJson(jsonDoc, client);
             
-              // The HTTP response ends with another blank line:
+            // The HTTP response ends with another blank line:
             client.println();
             // break out of the while loop:
             break;
@@ -142,10 +154,12 @@ void loop() {
           digitalWrite(6, HIGH);               
           Serial.println("Light on");
         }
+        
         if (currentLine.endsWith("GET /LIGHT-OFF")) {
           digitalWrite(6, LOW);                
           Serial.println("Light off");
         }
+        
         if (currentLine.startsWith("GET") && currentLine.endsWith("SETTIMER")) {
           //Serial.println("Set timer");
           String strTimerLow = currentLine.substring(5, 7); // ON time is chars 5 and 6
@@ -156,8 +170,23 @@ void loop() {
           //Serial.println(strTimerHigh);
           timerHigh = strTimerHigh.toInt();
           Serial.println(timerHigh);
-
+          mode = "NORMAL";
         }
+
+        if (currentLine.endsWith("GET /TIMERSET")) {
+          mode = "TIMERSET";
+        }
+
+        if (currentLine.endsWith("GET /TIMEROVERRIDE")) {
+          mode = "TIMEROVERRIDE";
+        }
+
+        if (currentLine.endsWith("GET /NORMAL")) {
+          mode = "NORMAL";
+        }
+
+        
+        
       }
     }
     // close the connection:
@@ -191,4 +220,8 @@ void printWifiStatus() {
   // print where to go in a browser:
   //Serial.print("To see this page in action, open a browser to http://");
   //Serial.println(ip);
+}
+
+void calcTimeIndex() {
+  timeIndex = rtc.getHours()*4 + rtc.getMinutes()/15;
 }

@@ -2,7 +2,8 @@ var today = new Date();
 var lightStatus = 'UNKNOWN';
 var onTime = 0;
 var offTime = 1;
- 
+let mode = 'NORMAL';
+
 var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-3', label:'LCARS', id: 'topFrame1'});
 var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-3', label:'ACCESS', id: 'topFrame2'});
 var topFrame3 = LCARS.create({type: 'bar', color:'bg-orange-4', id: 'topFrame3'});
@@ -269,14 +270,22 @@ function updateItems() {
     let jsonData = JSON.parse(data);
     console.log(jsonData);
     lightStatus = jsonData.lightStatus;
+    mode = jsonData.mode;
+    
+    if (mode != 'TIMERSET') {
+      onTime = jsonData.timerLow;
+      offTime = jsonData.timerHigh;
+    }
+
   });
-  
+
   if (lightStatus === 'ON') {
     uvLightStatus.set('state', 'blink');
     uvLightStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
     tempLightStatus.set('state', 'blink');
     tempLightStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
     lightPowerToggle.set('label', 'TURN LIGHT OFF');
+    lightPowerToggle.set('color', 'bg-red-1');
   }
   else {
     uvLightStatus.set('state', null);
@@ -284,8 +293,38 @@ function updateItems() {
     tempLightStatus.set('state', null);
     tempLightStatus.set('colors', ['bg-purple-3', 'bg-grey-1', 'bg-purple-3']);
     lightPowerToggle.set('label', 'TURN LIGHT ON');
+    lightPowerToggle.set('color', 'bg-red-2');
   }
 
+  switch(mode) {
+    case 'NORMAL':
+      $('#lightPowerToggle').hide();
+      $('#lightOverrideText').hide();
+      $('#infoText').show();
+      $('#timerSetGraph').hide();
+      $('#timerSet').hide();
+      $('#infoText').show();
+      $('#onTime').html(parseTime(onTime));
+      $('#offTime').html(parseTime(offTime));
+      timerOverrideButton.set('state', null);
+      timerAdjustButton.set('state', null);
+      updateTimerBar(onTime, offTime);
+      break;
+    case 'TIMEROVERRIDE':
+      $('#infoText').hide();
+      $('#lightPowerToggle').show();
+      $('#lightOverrideText').show();
+      timerOverrideButton.set('state', 'red-dark-light');
+      timerAdjustButton.set('state', 'disabled');
+      break;
+    case 'TIMERSET':
+      $('#infoText').hide();
+      $('#timerSetGraph').show();
+      $('#timerSet').show();
+      timerAdjustButton.set('state', 'red-dark-light');
+      timerOverrideButton.set('state', 'disabled');
+      break;
+  }
   
 }
 
@@ -297,40 +336,25 @@ function homeButtonClick() {
 function timerOverrideButtonClick() {
   const beep = document.getElementById('beep1');
   //beep.play();
-  if (timerOverrideButton.get('state') == 'red-dark-light') {
-    $('#lightPowerToggle').hide();
-    $('#lightOverrideText').hide();
-    $('#infoText').show();
-    //setLightToggleLabel();
-    timerOverrideButton.set('state', null);
-    timerAdjustButton.set('state', null);    
+  if (mode == 'NORMAL') {
+    $.get('http://192.168.1.219/TIMEROVERRIDE');
   } else {
-    $('#infoText').hide();
-    $('#lightPowerToggle').show();
-    $('#lightOverrideText').show();
-    //setLightToggleLabel();
-    timerOverrideButton.set('state', 'red-dark-light');
-    timerAdjustButton.set('state', 'disabled');
+    $.get('http://192.168.1.219/NORMAL');
   }
+  updateItems();
 }
 
 function timerAdjustButtonClick() {
   const beep = document.getElementById('beep1');
   //beep.play();
-
-  if (timerAdjustButton.get('state') == 'red-dark-light') {
-    $('#timerSetGraph').hide();
-    $('#timerSet').hide();
-    $('#infoText').show();
-    timerAdjustButton.set('state', null);
-    timerOverrideButton.set('state', null);    
+  if (mode == 'NORMAL') {
+    $.get('http://192.168.1.219/TIMERSET');
   } else {
-    $('#infoText').hide();
-    $('#timerSetGraph').show();
-    $('#timerSet').show();
-    timerAdjustButton.set('state', 'red-dark-light');
-    timerOverrideButton.set('state', 'disabled');
+    //$.get('http://192.168.1.219/NORMAL');
+    //let reqString = 'http://192.168.1.219/' + onTime.toString() + '-' + offTime.toString() + '-SETTIMER';
+    $.get('http://192.168.1.219/' + onTime.toString() + '-' + offTime.toString() + '-SETTIMER');
   }
+  updateItems();
 }
 
 function stardate() {
