@@ -1,31 +1,14 @@
-/*
-  WiFi Web Server LED Blink
 
- A simple web server that lets you blink an LED via the web.
- This sketch will print the IP address of your WiFi module (once connected)
- to the Serial monitor. From there, you can open that address in a web browser
- to turn on and off the LED on pin 9.
-
- If the IP address of your board is yourAddress:
- http://yourAddress/H turns the LED on
- http://yourAddress/L turns it off
-
- This example is written for a network using WPA encryption. For
- WEP or WPA, change the Wifi.begin() call accordingly.
-
- Circuit:
- * Board with NINA module (Arduino MKR WiFi 1010, MKR VIDOR 4000 and UNO WiFi Rev.2)
- * LED attached to pin 9
-
- created 25 Nov 2012
- by Tom Igoe
- */
 #include <SPI.h>
 #include <WiFiNINA.h>
 #include <ArduinoJson.h>
 #include <RTCZero.h>
-
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_AM2315.h>
 #include "arduino_secrets.h"
+
+#define TCAADDR 0x70
 
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
 char ssid[] = SECRET_SSID;        // your network SSID (name)
@@ -40,8 +23,11 @@ RTCZero rtc;
 int tzAdjust = -5;
 int timerLow = 24;
 int timerHigh = 80;
+float tempLight, rhLight, tempShade, rhShade;
 String mode = "NORMAL";
 int timeIndex = 0;
+
+Adafruit_AM2315 am2315;
 
 void setup() {
   Serial.begin(9600);      // initialize serial communication
@@ -74,7 +60,22 @@ void setup() {
 
   setClock();
   calcTimeIndex();
-}
+
+  // Initialize AM2315 on multiplexer channel 2
+  tcaSelect(2, 2000);
+  if (! am2315.begin()) {
+     Serial.println("Sensor 2 not found, check wiring & pullups!");
+     while (1);
+  }
+  
+  //Initialize AM2315 on multiplexer channel 7
+  tcaSelect(7, 2000);
+  if (! am2315.begin()) {
+     Serial.println("Sensor 7 not found, check wiring & pullups!");
+     while (1);
+  }
+  
+} // end of setup()
 
 
 void loop() {
@@ -87,6 +88,28 @@ void loop() {
     else {
       digitalWrite(6, LOW);
     }
+  }
+
+  // Read AM2315's. Only reading every 20 seconds since the AM2315's are so slow
+  // Should dig into AM2315 to see if I can speed this up.
+  if (rtc.getSeconds()%20 == 0) {
+    tcaSelect(2, 2000);
+    if (! am2315.readTemperatureAndHumidity(&tempLight, &rhLight)) {
+      Serial.println("Failed to read data from AM2315 2");
+      return;
+    }
+    Serial.print("(2) Temp *C: "); Serial.println(tempLight);
+    Serial.print("(2) Hum %: "); Serial.println(rhLight);
+  
+    tcaSelect(7, 2000);
+    if (! am2315.readTemperatureAndHumidity(&tempShade, &rhShade)) {
+      Serial.println("Failed to read data from AM2315 7");
+      return;
+    }
+    Serial.print("(7) Temp *C: "); Serial.println(tempShade);
+    Serial.print("(7) Hum %: "); Serial.println(rhShade);
+  
+    Serial.println();
   }
   
   WiFiClient client = server.available();   // listen for incoming clients
@@ -112,9 +135,8 @@ void loop() {
             client.println("");
 
             // the content of the HTTP response follows the header:
-            //client.print("Click <a href=\"/H\">here</a> turn the LED on pin 6 on<br>");
-            //client.print("Click <a href=\"/L\">here</a> turn the LED on pin 6 off<br>");
 
+            // Assemble JSON items
             if(digitalRead(6)) {
               jsonDoc["lightStatus"] = "ON";
             } else {
@@ -135,7 +157,16 @@ void loop() {
               seconds = "0" + seconds;
             }
             jsonDoc["time"] = hours + ":" + minutes + ":" + seconds;
+            
             jsonDoc["mode"] = mode;
+
+            jsonDoc["tempLight"] = tempLight;
+            jsonDoc["rhLight"] = rhLight;
+            jsonDoc["tempShade"] = tempShade;
+            jsonDoc["rhShade"] = rhShade;
+
+
+            // Send JSON to client
             serializeJson(jsonDoc, client);
             
             // The HTTP response ends with another blank line:
@@ -161,15 +192,11 @@ void loop() {
         }
         
         if (currentLine.startsWith("GET") && currentLine.endsWith("SETTIMER")) {
-          //Serial.println("Set timer");
           String strTimerLow = currentLine.substring(5, 7); // ON time is chars 5 and 6
-          //Serial.println(strTimerLow);
           timerLow = strTimerLow.toInt();
           Serial.println(timerLow);
           String strTimerHigh = currentLine.substring(8, 10); // OFF time is chars 8 and 8
-          //Serial.println(strTimerHigh);
           timerHigh = strTimerHigh.toInt();
-          Serial.println(timerHigh);
           mode = "NORMAL";
         }
 
@@ -189,12 +216,13 @@ void loop() {
         
       }
     }
+    
     // close the connection:
     client.stop();
-    //Serial.println("client disonnected");
   }
 }
 
+// sets RTC clock using network time, adjusted locally for time zone
 void setClock() {
   rtc.begin();
   unsigned long epoch;
@@ -217,11 +245,22 @@ void printWifiStatus() {
   Serial.print("signal strength (RSSI):");
   Serial.print(rssi);
   Serial.println(" dBm");
-  // print where to go in a browser:
-  //Serial.print("To see this page in action, open a browser to http://");
-  //Serial.println(ip);
 }
 
+// Parses time into 15 minutes chunks: i.e. midnight = time index 0, 01:00 = time index 4, 12:00 = time index 48, etc
+// This just makes the UI easier, as there's no real reason to set the timer in any finer than 15 minute increments
 void calcTimeIndex() {
   timeIndex = rtc.getHours()*4 + rtc.getMinutes()/15;
+}
+
+// Selects which channel to use on the I2C multiplexer. This only seems to work for me for the AM2315's if
+// I put a 2 second delay in, otherwise it will only recongize the first AM2315 and never establish communication
+// with the 2nd AM2315
+void tcaSelect(uint8_t i, int d) {
+  if (i > 7) return;
+  Wire.begin();
+  Wire.beginTransmission(TCAADDR);
+  Wire.write(1 << i);
+  Wire.endTransmission();
+  delay(d);
 }
