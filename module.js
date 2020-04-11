@@ -3,6 +3,10 @@ var lightStatus = 'UNKNOWN';
 var onTime = 0;
 var offTime = 1;
 let mode = 'NORMAL';
+let tempLight = 0.0;
+let rhLight = 0.0;
+let tempShade = 0.0;
+let rhShade = 0.0;
 
 var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-3', label:'LCARS', id: 'topFrame1'});
 var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-3', label:'ACCESS', id: 'topFrame2'});
@@ -38,7 +42,7 @@ var tempLightStatus = LCARS.create({type:'complexButton', id: 'tempLightStatus',
 
 var rhLightStatus = LCARS.create({type:'complexButton', id: 'rhLightStatus', children: [
   {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'RH\n(LIGHT)', id: 'rhLightButton'}, 
-  {type: 'title', color: 'bg-grey-1', text: '60', id: 'rhShadeText'}, 
+  {type: 'title', color: 'bg-grey-1', text: '60', id: 'rhLightText'}, 
   {type: 'cap', version: 'round-right', color: 'bg-purple-4', id: 'rhLightCap'}
 ]});
 
@@ -271,6 +275,10 @@ function updateItems() {
     console.log(jsonData);
     lightStatus = jsonData.lightStatus;
     mode = jsonData.mode;
+    tempLight = jsonData.tempLight;
+    rhLight = jsonData.rhLight;
+    tempShade = jsonData.tempShade;
+    rhShade = jsonData.rhShade;
     
     if (mode != 'TIMERSET') {
       onTime = jsonData.timerLow;
@@ -325,6 +333,12 @@ function updateItems() {
       timerOverrideButton.set('state', 'disabled');
       break;
   }
+
+  $('#tempLightText').html(Math.round(tempLight));
+  $('#rhLightText').html(Math.round(rhLight));
+  $('#tempShadeText').html(Math.round(tempShade));
+  $('#rhShadeText').html(Math.round(rhShade));
+
   
 }
 
