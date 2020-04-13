@@ -23,6 +23,9 @@
   min-height: 10px;
 }
 
+.bar {
+  min-width: 10px;
+}
 
 #topFrame1, #topFrame2, #bottomFrame1, #bottomFrame2, #homeButton,
   #timerAdjustButton, #timerOverrideButton {
@@ -116,13 +119,15 @@
 #tempLightStatus, #rhLightStatus, #tempShadeStatus, #rhShadeStatus, #rhSoilStatus, #uvLightStatus {
   position: absolute;
   width: 15%;
-  height: 6%;
+  height: 5%;
   text-align: right;
   font-size: 17px;
 }
 
 #tempLightText, #rhLightText, #tempShadeText, #rhShadeText, #rhSoilText, #uvLightText {
-  font-size: 55px;
+  font-size: 45px;
+  text-align: center;
+  width: 35%;
 }
 
 #tempLightStatus, #rhLightStatus {
@@ -147,8 +152,7 @@
 
 #tempLightCap, #rhLightCap, #tempShadeCap, #rhShadeCap, #rhSoilCap, #uvLightCap {
   position: relative;
-  width: 20%;
-  font-size: 12px;
+  width: 11%
 }
 
 #lightPowerToggle {
