@@ -313,3 +313,72 @@
   margin-left: 10px;
   font-size: 23px;
 }
+
+#diagnosticFrame {
+  position: absolute;
+  left: 65%;
+  top: 40%;
+  width: 30%;
+  height: 55%;
+}
+
+#tzAdjust {
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+
+#tzIncButton, #tzDecButton {
+  width: 20%;
+  font-size: 300%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+
+
+#tzText {
+  width: 15%;
+  font-size: 250%;
+  text-align: center;
+}
+
+#tzSetButtonContainer {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
+#tzSetButton {
+  width: 75%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 125%;
+}
+
+#diagTextRow {
+  padding-top: 5px;
+  align-items: stretch
+}
+
+#diagTextRow div {
+  letter-spacing: -1px;
+  width: 45%;
+  padding-left: 5px
+}
+
+#diagResult1, #diagResult2, #diagResult3, #diagResult4, #diagResult5  {
+  justify-content: flex-end;
+  text-align: right;
+  align-items: stretch;
+  width: 45%;
+}
+
+#diagOval {
+  max-width: 10%;
+  min-width: 10%;
+}

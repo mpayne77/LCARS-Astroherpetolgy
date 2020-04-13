@@ -216,6 +216,43 @@ var infoText = LCARS.create({type: 'column', flex: 'v', id: 'infoText', children
   ]},
 ]});
 
+var diagnosticFrame = LCARS.create({type: 'column', flex: 'v', id: 'diagnosticFrame', children: [
+  {type: 'row', flex: 'h', id: 'tzAdjust', children: [
+    {type: 'button', version: 'round-left', color: 'bg-purple-1', text: '-', id: 'tzDecButton'},
+    {type: 'text', color: 'bg-grey-1', text: '-5', id: 'tzText'},
+    {type: 'button', version: 'round-right', color: 'bg-purple-1', text: '+', id: 'tzIncButton'}
+  ]},
+  {type: 'row', flex: 'h', id: 'tzSetButtonContainer', children: [
+    {type: 'button', version: 'round', color: 'bg-orange-2', text: 'SET TIME ZONE OFFSET', id: 'tzSetButton'}
+  ]},
+  {type: 'row', flex: 'h', id: 'diagTextRow', children: [
+    {type: 'oval', color: 'bg-orange-2', size: 'small', id: 'diagOval'},
+    {type: 'text', color: 'bg-purple-2', text: 'SYSTEM TIME:', id: 'diagText1'},
+    {type: 'text', color: 'bg-green-4', text: '00:00', id: 'diagResult1'}
+  ]},
+  {type: 'row', flex: 'h', id: 'diagTextRow', children: [
+    {type: 'oval', color: 'bg-orange-2', size: 'small', id: 'diagOval'},
+    {type: 'text', color: 'bg-purple-2', text: 'AM2315 (LIGHT):', id: 'diagText2'},
+    {type: 'text', color: 'bg-red-1', text: 'OFFLINE', id: 'diagResult2', state: 'blink'}
+  ]},
+  {type: 'row', flex: 'h', id: 'diagTextRow', children: [
+    {type: 'oval', color: 'bg-orange-2', size: 'small', id: 'diagOval'},
+    {type: 'text', color: 'bg-purple-2', text: 'AM2315 (SHADE):', id: 'diagText3'},
+    {type: 'text', color: 'bg-red-1', text: 'OFFLINE', id: 'diagResult3', state: 'blink'}
+  ]},
+  {type: 'row', flex: 'h', id: 'diagTextRow', children: [
+    {type: 'oval', color: 'bg-orange-2', size: 'small', id: 'diagOval'},
+    {type: 'text', color: 'bg-purple-2', text: 'VH400 (SOIL HUMIDITY):', id: 'diagText4'},
+    {type: 'text', color: 'bg-red-1', text: 'OFFLINE', id: 'diagResult4', state: 'blink'}
+  ]},
+  {type: 'row', flex: 'h', id: 'diagTextRow', children: [
+    {type: 'oval', color: 'bg-orange-2', size: 'small', id: 'diagOval'},
+    {type: 'text', color: 'bg-purple-2', text: 'UV LIGHT SENSOR:', id: 'diagText5'},
+    {type: 'text', color: 'bg-red-1', text: 'OFFLINE', id: 'diagResult5', state: 'blink'}
+  ]},
+
+]});
+
 
 $(document).ready(function(){
   $('body').append((topFrame1).dom);
@@ -247,8 +284,14 @@ $(document).ready(function(){
   $('#timerSetGraph').hide();
   $('body').append((timerSet).dom);
   $('#timerSet').hide();
-
+  $('body').append((diagnosticFrame).dom);
+  $('#diagnosticFrame').hide();
+  
+  
   $('body').append((infoText).dom);
+  
+
+  $('body').append((diagnosticFrame).dom);
   
   
 
@@ -262,6 +305,8 @@ $(document).ready(function(){
   $('#onDec').click(function(){onDecClick()});
   $('#offDec').click(function(){offDecClick()});
   
+  $('#tzSetButton').click(function(){tzSetButtonClick()});
+
   setInterval(updateItems, 1000);
   updateTimerBar(onTime, offTime);
 
@@ -497,4 +542,9 @@ function updateTimerBar(onTime, offTime) {
   var barLength = (offTime-onTime)*83/96;
   $('#timerBar').css('left', startPos.toString() + '%');  
   $('#timerBar').css('width', barLength.toString() + '%');
+}
+
+function tzSetButtonClick() {
+  console.log('tzSetButton');
+
 }
