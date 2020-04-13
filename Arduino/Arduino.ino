@@ -96,7 +96,8 @@ void loop() {
     tcaSelect(2, 2000);
     if (! am2315.readTemperatureAndHumidity(&tempLight, &rhLight)) {
       Serial.println("Failed to read data from AM2315 2");
-      return;
+      tempLight = -1;
+      rhLight = -1;
     }
     Serial.print("(2) Temp *C: "); Serial.println(tempLight);
     Serial.print("(2) Hum %: "); Serial.println(rhLight);
@@ -104,7 +105,8 @@ void loop() {
     tcaSelect(7, 2000);
     if (! am2315.readTemperatureAndHumidity(&tempShade, &rhShade)) {
       Serial.println("Failed to read data from AM2315 7");
-      return;
+      tempShade = -1;
+      rhShade = -1;
     }
     Serial.print("(7) Temp *C: "); Serial.println(tempShade);
     Serial.print("(7) Hum %: "); Serial.println(rhShade);

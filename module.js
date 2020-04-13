@@ -336,11 +336,29 @@ function updateItems() {
       $('#infoText').hide();
   }
 
-  $('#tempLightText').html(tempLight);
-  $('#rhLightText').html(rhLight);
-  $('#tempShadeText').html(tempShade);
-  $('#rhShadeText').html(rhShade);
-
+  if (tempLight > 0) {
+    $('#tempLightText').html(tempLight);
+  } else {
+    $('#tempLightText').html('--.-');
+  }
+  
+  if (rhLight > 0) {
+    $('#rhLightText').html(rhLight);
+  } else {
+    $('#rhLightText').html('--.-');
+  }
+  
+  if (tempShade > 0) {
+    $('#tempShadeText').html(tempShade);
+  } else {
+    $('#tempShadeText').html('--.-');
+  }
+  
+  if (rhShade > 0) {
+    $('#rhShadeText').html(rhShade);
+  } else {
+    $('#rhShadeText').html('--.-');
+  } 
   
 }
 
