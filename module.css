@@ -27,7 +27,7 @@
   min-width: 10px;
 }
 
-#topFrame1, #topFrame2, #bottomFrame1, #bottomFrame2, #homeButton,
+#topFrame1, #topFrame2, #bottomFrame1, #bottomFrame2, #diagnosticButton,
   #timerAdjustButton, #timerOverrideButton {
   position: absolute;
   width: 10%;
@@ -98,7 +98,7 @@
   height: 15%
 }
 
-#homeButton {
+#diagnosticButton {
   position: absolute;
   height: calc(20% - 5px);
   top: calc(40% + 20px);

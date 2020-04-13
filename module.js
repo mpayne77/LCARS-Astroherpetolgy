@@ -18,7 +18,7 @@ var bottomFrame1 = LCARS.create({type: 'elbow', color:'bg-orange-3', direction: 
 var bottomFrame2 = LCARS.create({type: 'bar', color:'bg-orange-3', id: 'bottomFrame2'});
 var bottomFrame3 = LCARS.create({type: 'bar', color:'bg-orange-3', label: 'TIME:', id: 'bottomFrame3'});
 var bottomFrame4 = LCARS.create({type: 'bar', color:'bg-orange-3', id: 'startime', label: startime(), id: 'bottomFrame4'});
-var homeButton = LCARS.create({type: 'button', color:'bg-purple-5', label:'HOME', id: 'homeButton'});
+var diagnosticButton = LCARS.create({type: 'button', color:'bg-purple-5', label:'SYSTEM\nDIAGNOSTIC', id: 'diagnosticButton'});
 var timerAdjustButton = LCARS.create({type: 'button', color:'bg-purple-4', label:'TIMER\nADJUST', id: 'timerAdjustButton'});
 var timerOverrideButton = LCARS.create({type: 'button', color:'bg-orange-4', label:'TIMER\nOVERRIDE', id: 'timerOverrideButton'});
 var turtlePicture = LCARS.create({type: 'img', src: 'tortoise.png', id: 'turtlePicture',});
@@ -228,7 +228,7 @@ $(document).ready(function(){
   $('body').append((bottomFrame2).dom);
   $('body').append((bottomFrame3).dom);
   $('body').append((bottomFrame4).dom);
-  $('body').append((homeButton).dom);
+  $('body').append((diagnosticButton).dom);
   $('body').append((timerAdjustButton).dom);
   $('body').append((timerOverrideButton).dom);
   $('body').append((turtlePicture).dom);
@@ -252,7 +252,7 @@ $(document).ready(function(){
   
   
 
-  $('#homeButton').click(function(){homeButtonClick()});
+  $('#diagnosticButton').click(function(){diagnosticButtonClick()});
   $('#timerAdjustButton').click(function(){timerAdjustButtonClick()});
   $('#timerOverrideButton').click(function(){timerOverrideButtonClick()});
   $('#lightPowerToggle').click(function(){lightPowerToggleClick()});
@@ -332,9 +332,10 @@ function updateItems() {
       timerAdjustButton.set('state', 'red-dark-light');
       timerOverrideButton.set('state', 'disabled');
       break;
+    case 'DIAGNOSTIC':
+      $('#infoText').hide();
   }
 
-  //$('#tempLightText').html(Math.round(tempLight));
   $('#tempLightText').html(tempLight);
   $('#rhLightText').html(rhLight);
   $('#tempShadeText').html(tempShade);
@@ -343,9 +344,14 @@ function updateItems() {
   
 }
 
-function homeButtonClick() {
+function diagnosticButtonClick() {
   const beep = document.getElementById('beep2');
   //beep.play();
+  if (mode == 'NORMAL') {
+    $.get('http://192.168.1.219/DIAGNOSTIC');
+  } else {
+    $.get('http://192.168.1.219/NORMAL');
+  }
 }
 
 function timerOverrideButtonClick() {

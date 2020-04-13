@@ -208,6 +208,10 @@ void loop() {
           mode = "TIMEROVERRIDE";
         }
 
+        if (currentLine.endsWith("GET /DIAGNOSTIC")) {
+          mode = "DIAGNOSTIC";
+        }
+        
         if (currentLine.endsWith("GET /NORMAL")) {
           mode = "NORMAL";
         }
