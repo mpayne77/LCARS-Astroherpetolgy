@@ -8,6 +8,8 @@ let rhLight = 0.0;
 let tempShade = 0.0;
 let rhShade = 0.0;
 let arduinoTime = '--:--:--'
+let soilHumidity = 0.0
+let uvIntensity = 0.0
 
 var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-3', label:'LCARS', id: 'topFrame1'});
 var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-3', label:'ACCESS', id: 'topFrame2'});
