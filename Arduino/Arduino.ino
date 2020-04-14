@@ -204,7 +204,7 @@ void loop() {
         }
 
         if (currentLine.startsWith("GET") && currentLine.endsWith("SETCLOCK")) {
-          String tzOffsetStr = currentLine.substring(5, 7); // ON time is chars 5 and 6
+          String tzOffsetStr = currentLine.substring(5, 7); // time zone offset is chars 5 and 6
           tzAdjust = tzOffsetStr.toInt() - 12;
           setClock();
         }

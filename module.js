@@ -478,14 +478,14 @@ function timerAdjustButtonClick() {
   if (mode == 'NORMAL') {
     $.get('http://192.168.1.219/TIMERSET');
   } else {
-    //$.get('http://192.168.1.219/NORMAL');
-    //let reqString = 'http://192.168.1.219/' + onTime.toString() + '-' + offTime.toString() + '-SETTIMER';
     $.get('http://192.168.1.219/' + onTime.toString() + '-' + offTime.toString() + '-SETTIMER');
   }
   updateItems();
 }
 
 function tzSetButtonClick() {
+  // to avoid needing to parse negative and positive numbers in the string received by the Arduino
+  // I'm adding 12 to the time zone before sending. The extra 12 is then subtracted off on the Arduino side
   let tzOffset = tzAdjust + 12;
   let tzOffsetStr = tzOffset.toString();
   if (tzOffset < 10) {
