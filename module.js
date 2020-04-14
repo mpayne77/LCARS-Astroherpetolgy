@@ -8,7 +8,7 @@ let rhLight = 0.0;
 let tempShade = 0.0;
 let rhShade = 0.0;
 let arduinoTime = '--:--:--'
-let soilHumidity = 0.0
+let soilVWC = 0.0
 let uvIntensity = 0.0
 let tzAdjust = -5;
 
@@ -62,10 +62,10 @@ var rhShadeStatus = LCARS.create({type:'complexButton', id: 'rhShadeStatus', chi
   {type: 'bar', version: 'round-right', color: 'bg-purple-4', id: 'rhShadeCap'}
 ]});
 
-var rhSoilStatus = LCARS.create({type:'complexButton', id: 'rhSoilStatus', children: [
-  {type: 'button', version: 'round-left', color: 'bg-purple-3', label: 'SOIL\nHUMIDITY', id: 'rhSoilButton'}, 
-  {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'rhSoilText'}, 
-  {type: 'bar', version: 'round-right', color: 'bg-purple-3', id: 'rhSoilCap'}
+var soilVWCStatus = LCARS.create({type:'complexButton', id: 'soilVWCStatus', children: [
+  {type: 'button', version: 'round-left', color: 'bg-purple-3', label: 'SOIL\nHUMIDITY', id: 'soilVWCButton'}, 
+  {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'soilVWCText'}, 
+  {type: 'bar', version: 'round-right', color: 'bg-purple-3', id: 'soilVWCCap'}
 ]});
 
 var uvLightStatus = LCARS.create({type:'complexButton', id: 'uvLightStatus', children: [
@@ -278,7 +278,7 @@ $(document).ready(function(){
   $('body').append((rhLightStatus).dom);
   $('body').append((tempShadeStatus).dom);
   $('body').append((rhShadeStatus).dom);
-  $('body').append((rhSoilStatus).dom);
+  $('body').append((soilVWCStatus).dom);
   $('body').append((uvLightStatus).dom);
   $('body').append((lightPowerToggle).dom);
   $('#lightPowerToggle').hide();
@@ -331,6 +331,7 @@ function updateItems() {
     tempShade = jsonData.tempShade;
     rhShade = jsonData.rhShade;
     arduinoTime = jsonData.time;
+    soilVWC = jsonData.soilVWC;
     
     if (mode != 'TIMERSET') {
       onTime = jsonData.timerLow;
@@ -420,6 +421,16 @@ function updateItems() {
         LCARS.active.diagResult3.set('state', 'blink');
       }
 
+      if (soilVWC > 1) {
+        LCARS.active.diagResult4.set('text', 'ONLINE');
+        LCARS.active.diagResult4.set('color', 'bg-green-1');
+        LCARS.active.diagResult4.set('state', null);
+      } else {
+        LCARS.active.diagResult4.set('text', 'OFFLINE');
+        LCARS.active.diagResult4.set('color', 'bg-red-1');
+        LCARS.active.diagResult4.set('state', 'blink');
+      }
+
       
   }
 
@@ -445,6 +456,12 @@ function updateItems() {
     $('#rhShadeText').html(rhShade);
   } else {
     $('#rhShadeText').html('--.-');
+  }
+
+  if (soilVWC > 1) {
+    $('#soilVWCText').html(soilVWC.toFixed(1));
+  } else {
+    $('#soilVWCText').html('--.-');
   }
   
   LCARS.active.tzAdjustText.set('text', tzAdjust.toString());

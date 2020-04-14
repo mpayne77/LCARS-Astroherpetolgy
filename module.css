@@ -116,7 +116,7 @@
   top: calc(80% + 20px);
 }
 
-#tempLightStatus, #rhLightStatus, #tempShadeStatus, #rhShadeStatus, #rhSoilStatus, #uvLightStatus {
+#tempLightStatus, #rhLightStatus, #tempShadeStatus, #rhShadeStatus, #soilVWCStatus, #uvLightStatus {
   position: absolute;
   width: 15%;
   height: 5%;
@@ -124,7 +124,7 @@
   font-size: 17px;
 }
 
-#tempLightText, #rhLightText, #tempShadeText, #rhShadeText, #rhSoilText, #uvLightText {
+#tempLightText, #rhLightText, #tempShadeText, #rhShadeText, #soilVWCText, #uvLightText {
   font-size: 45px;
   text-align: center;
   width: 35%;
@@ -138,11 +138,11 @@
   left: 30%;
 }
 
-#rhSoilStatus, #uvLightStatus {
+#soilVWCStatus, #uvLightStatus {
   left: 46%;
 }
 
-#tempLightStatus, #tempShadeStatus, #rhSoilStatus {
+#tempLightStatus, #tempShadeStatus, #soilVWCStatus {
   top: 3%;
 }
 
@@ -150,7 +150,7 @@
   top: 12%;
 }
 
-#tempLightCap, #rhLightCap, #tempShadeCap, #rhShadeCap, #rhSoilCap, #uvLightCap {
+#tempLightCap, #rhLightCap, #tempShadeCap, #rhShadeCap, #soilVWCCap, #uvLightCap {
   position: relative;
   width: 11%
 }

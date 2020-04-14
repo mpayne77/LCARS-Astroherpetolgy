@@ -171,6 +171,7 @@ void loop() {
             jsonDoc["tempShade"] = tempShade;
             jsonDoc["rhShade"] = rhShade;
             jsonDoc["tzAdjust"] = tzAdjust;
+            jsonDoc["soilVWC"] = soilVWC;
 
 
             // Send JSON to client
