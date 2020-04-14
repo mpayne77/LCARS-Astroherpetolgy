@@ -7,6 +7,7 @@ let tempLight = 0.0;
 let rhLight = 0.0;
 let tempShade = 0.0;
 let rhShade = 0.0;
+let arduinoTime = '--:--:--'
 
 var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-3', label:'LCARS', id: 'topFrame1'});
 var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-3', label:'ACCESS', id: 'topFrame2'});
@@ -227,17 +228,17 @@ var diagnosticFrame = LCARS.create({type: 'column', flex: 'v', id: 'diagnosticFr
   ]},
   {type: 'row', flex: 'h', id: 'diagTextRow', children: [
     {type: 'oval', color: 'bg-orange-2', size: 'small', id: 'diagOval'},
-    {type: 'text', color: 'bg-purple-2', text: 'SYSTEM TIME:', id: 'diagText1'},
+    {type: 'text', color: 'bg-purple-2', text: 'ARDUINO RTC TIME:', id: 'diagText1'},
     {type: 'text', color: 'bg-green-4', text: '00:00', id: 'diagResult1'}
   ]},
   {type: 'row', flex: 'h', id: 'diagTextRow', children: [
     {type: 'oval', color: 'bg-orange-2', size: 'small', id: 'diagOval'},
-    {type: 'text', color: 'bg-purple-2', text: 'AM2315 (LIGHT):', id: 'diagText2'},
+    {type: 'text', color: 'bg-purple-2', text: 'AM2315 (TEMP/RH LIGHT SIDE):', id: 'diagText2'},
     {type: 'text', color: 'bg-red-1', text: 'OFFLINE', id: 'diagResult2', state: 'blink'}
   ]},
   {type: 'row', flex: 'h', id: 'diagTextRow', children: [
     {type: 'oval', color: 'bg-orange-2', size: 'small', id: 'diagOval'},
-    {type: 'text', color: 'bg-purple-2', text: 'AM2315 (SHADE):', id: 'diagText3'},
+    {type: 'text', color: 'bg-purple-2', text: 'AM2315 (TEMP/RH SHADE SIDE):', id: 'diagText3'},
     {type: 'text', color: 'bg-red-1', text: 'OFFLINE', id: 'diagResult3', state: 'blink'}
   ]},
   {type: 'row', flex: 'h', id: 'diagTextRow', children: [
@@ -324,6 +325,7 @@ function updateItems() {
     rhLight = jsonData.rhLight;
     tempShade = jsonData.tempShade;
     rhShade = jsonData.rhShade;
+    arduinoTime = jsonData.time;
     
     if (mode != 'TIMERSET') {
       onTime = jsonData.timerLow;
@@ -353,14 +355,15 @@ function updateItems() {
     case 'NORMAL':
       $('#lightPowerToggle').hide();
       $('#lightOverrideText').hide();
-      $('#infoText').show();
       $('#timerSetGraph').hide();
       $('#timerSet').hide();
+      $('#diagnosticFrame').hide();
       $('#infoText').show();
       $('#onTime').html(parseTime(onTime));
       $('#offTime').html(parseTime(offTime));
       timerOverrideButton.set('state', null);
       timerAdjustButton.set('state', null);
+      diagnosticButton.set('state', null);
       updateTimerBar(onTime, offTime);
       break;
     case 'TIMEROVERRIDE':
@@ -369,6 +372,7 @@ function updateItems() {
       $('#lightOverrideText').show();
       timerOverrideButton.set('state', 'red-dark-light');
       timerAdjustButton.set('state', 'disabled');
+      diagnosticButton.set('state', 'disabled');
       break;
     case 'TIMERSET':
       $('#infoText').hide();
@@ -376,9 +380,36 @@ function updateItems() {
       $('#timerSet').show();
       timerAdjustButton.set('state', 'red-dark-light');
       timerOverrideButton.set('state', 'disabled');
+      diagnosticButton.set('state', 'disabled');
       break;
     case 'DIAGNOSTIC':
       $('#infoText').hide();
+      $('#diagnosticFrame').show();
+      timerAdjustButton.set('state', 'disabled');
+      timerOverrideButton.set('state', 'disabled');
+      diagnosticButton.set('state', 'red-dark-light');
+      
+      LCARS.active.diagResult1.set('text', arduinoTime);
+
+      if (tempLight > 0 && rhLight > 0) {
+        LCARS.active.diagResult2.set('text', 'ONLINE');
+        LCARS.active.diagResult2.set('color', 'bg-green-1');
+        LCARS.active.diagResult2.set('state', null);
+      } else {
+        LCARS.active.diagResult2.set('text', 'OFFLINE');
+        LCARS.active.diagResult2.set('color', 'bg-red-1');
+        LCARS.active.diagResult2.set('state', 'blink');
+      }
+
+      if (tempShade > 0 && rhShade > 0) {
+        LCARS.active.diagResult3.set('text', 'ONLINE');
+        LCARS.active.diagResult3.set('color', 'bg-green-1');
+        LCARS.active.diagResult3.set('state', null);
+      } else {
+        LCARS.active.diagResult3.set('text', 'OFFLINE');
+        LCARS.active.diagResult3.set('color', 'bg-red-1');
+        LCARS.active.diagResult3.set('state', 'blink');
+      }
   }
 
   if (tempLight > 0) {
