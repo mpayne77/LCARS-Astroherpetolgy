@@ -10,6 +10,7 @@ let rhShade = 0.0;
 let arduinoTime = '--:--:--'
 let soilHumidity = 0.0
 let uvIntensity = 0.0
+let tzAdjust = -5;
 
 var topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-3', label:'LCARS', id: 'topFrame1'});
 var topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-3', label:'ACCESS', id: 'topFrame2'});
@@ -222,7 +223,7 @@ var infoText = LCARS.create({type: 'column', flex: 'v', id: 'infoText', children
 var diagnosticFrame = LCARS.create({type: 'column', flex: 'v', id: 'diagnosticFrame', children: [
   {type: 'row', flex: 'h', id: 'tzAdjust', children: [
     {type: 'button', version: 'round-left', color: 'bg-purple-1', text: '-', id: 'tzDecButton'},
-    {type: 'text', color: 'bg-grey-1', text: '-5', id: 'tzText'},
+    {type: 'text', color: 'bg-grey-1', text: '--', id: 'tzAdjustText'},
     {type: 'button', version: 'round-right', color: 'bg-purple-1', text: '+', id: 'tzIncButton'}
   ]},
   {type: 'row', flex: 'h', id: 'tzSetButtonContainer', children: [
@@ -309,6 +310,8 @@ $(document).ready(function(){
   $('#offDec').click(function(){offDecClick()});
   
   $('#tzSetButton').click(function(){tzSetButtonClick()});
+  $('#tzDecButton').click(function(){tzDecButtonClick()});
+  $('#tzIncButton').click(function(){tzIncButtonClick()});
 
   setInterval(updateItems, 1000);
   updateTimerBar(onTime, offTime);
@@ -332,6 +335,10 @@ function updateItems() {
     if (mode != 'TIMERSET') {
       onTime = jsonData.timerLow;
       offTime = jsonData.timerHigh;
+    }
+
+    if (mode != 'DIAGNOSTIC') {
+      tzAdjust = jsonData.tzAdjust;
     }
 
   });
@@ -412,6 +419,8 @@ function updateItems() {
         LCARS.active.diagResult3.set('color', 'bg-red-1');
         LCARS.active.diagResult3.set('state', 'blink');
       }
+
+      
   }
 
   if (tempLight > 0) {
@@ -436,7 +445,9 @@ function updateItems() {
     $('#rhShadeText').html(rhShade);
   } else {
     $('#rhShadeText').html('--.-');
-  } 
+  }
+  
+  LCARS.active.tzAdjustText.set('text', tzAdjust.toString());
   
 }
 
@@ -472,6 +483,15 @@ function timerAdjustButtonClick() {
     $.get('http://192.168.1.219/' + onTime.toString() + '-' + offTime.toString() + '-SETTIMER');
   }
   updateItems();
+}
+
+function tzSetButtonClick() {
+  let tzOffset = tzAdjust + 12;
+  let tzOffsetStr = tzOffset.toString();
+  if (tzOffset < 10) {
+    tzOffsetStr = '0' + tzOffsetStr;
+  }
+  $.get('http://192.168.1.219/' + tzOffsetStr + '-SETCLOCK');
 }
 
 function stardate() {
@@ -577,7 +597,18 @@ function updateTimerBar(onTime, offTime) {
   $('#timerBar').css('width', barLength.toString() + '%');
 }
 
-function tzSetButtonClick() {
-  console.log('tzSetButton');
 
+
+function tzDecButtonClick () {
+  if (tzAdjust > -12 && tzAdjust <= 12) {
+    tzAdjust--;
+    LCARS.active.tzAdjustText.set('text', tzAdjust);
+  }
+}
+
+function tzIncButtonClick () {
+  if (tzAdjust >= -12 && tzAdjust < 12) {
+    tzAdjust++;
+    LCARS.active.tzAdjustText.set('text', tzAdjust);
+  }
 }

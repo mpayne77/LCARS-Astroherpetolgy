@@ -166,6 +166,7 @@ void loop() {
             jsonDoc["rhLight"] = rhLight;
             jsonDoc["tempShade"] = tempShade;
             jsonDoc["rhShade"] = rhShade;
+            jsonDoc["tzAdjust"] = tzAdjust;
 
 
             // Send JSON to client
@@ -200,6 +201,12 @@ void loop() {
           String strTimerHigh = currentLine.substring(8, 10); // OFF time is chars 8 and 8
           timerHigh = strTimerHigh.toInt();
           mode = "NORMAL";
+        }
+
+        if (currentLine.startsWith("GET") && currentLine.endsWith("SETCLOCK")) {
+          String tzOffsetStr = currentLine.substring(5, 7); // ON time is chars 5 and 6
+          tzAdjust = tzOffsetStr.toInt() - 12;
+          setClock();
         }
 
         if (currentLine.endsWith("GET /TIMERSET")) {
