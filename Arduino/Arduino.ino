@@ -26,6 +26,7 @@ int timerHigh = 80;
 float tempLight, rhLight, tempShade, rhShade;
 String mode = "NORMAL";
 int timeIndex = 0;
+float soilVWC = -1;
 
 Adafruit_AM2315 am2315;
 
@@ -89,6 +90,9 @@ void loop() {
       digitalWrite(6, LOW);
     }
   }
+
+  // Read VH400 soil humidity sensor
+  readVH400();
 
   // Read AM2315's. Only reading every 20 seconds since the AM2315's are so slow
   // Should dig into AM2315 to see if I can speed this up.
@@ -276,4 +280,24 @@ void tcaSelect(uint8_t i, int d) {
   Wire.write(1 << i);
   Wire.endTransmission();
   delay(d);
+}
+
+void readVH400() {
+  int rawAnalogRead = analogRead(1);
+  float voltageRead = rawAnalogRead*3.3/1023;
+  if (voltageRead <= 1.1) {
+    soilVWC = 10*voltageRead - 1;
+  } else if (voltageRead <= 1.3) {
+    soilVWC = 25*voltageRead - 17.5;
+  } else if (voltageRead <= 1.82) {
+    soilVWC = 48.08*voltageRead - 47.5;
+  } else if (voltageRead <= 2.2) {
+    soilVWC = 26.32*voltageRead - 7.89;
+  } else {
+    soilVWC = 62.5*voltageRead - 87.5;
+  }
+
+  if (soilVWC > 100) {
+    soilVWC = 100;
+  }
 }
