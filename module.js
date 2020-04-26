@@ -471,9 +471,9 @@ function updateItems() {
   }
   
   if (uvIntensity > 1) {
-    LCARS.active.soilVWCText.set('text', (soilVWC.toFixed(1)).toString());
+    LCARS.active.uvIntensityText.set('text', (soilVWC.toFixed(1)).toString());
   } else {
-    LCARS.active.soilVWCText.set('text', '--.-');
+    LCARS.active.uvIntensityText.set('text', '--.-');
   }
 
   LCARS.active.tzAdjustText.set('text', tzAdjust.toString());
