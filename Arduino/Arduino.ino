@@ -35,29 +35,6 @@ void setup() {
   Serial.begin(9600);      // initialize serial communication
   pinMode(6, OUTPUT);      // set the LED pin mode
 
-//  // check for the WiFi module:
-//  if (WiFi.status() == WL_NO_MODULE) {
-//    Serial.println("Communication with WiFi module failed!");
-//    // don't continue
-//    while (true);
-//  }
-//
-//  String fv = WiFi.firmwareVersion();
-//  if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
-//    Serial.println("Please upgrade the firmware");
-//  }
-//
-//  // attempt to connect to Wifi network:
-//  while (status != WL_CONNECTED) {
-//    Serial.print("Attempting to connect to Network named: ");
-//    Serial.println(ssid);                   // print the network name (SSID);
-//
-//    // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
-//    status = WiFi.begin(ssid, pass);
-//    // wait 10 seconds for connection:
-//    delay(10000);
-//  }
-//  server.begin();                           // start the web server on port 80
   wifiInit();
 
   setClock();
@@ -99,9 +76,9 @@ void loop() {
   // Read UV light sensor
   readUV();
 
-  // Read AM2315's. Only reading every 20 seconds since the AM2315's are so slow
+  // Read AM2315's. Only reading every minute on the :30 since the AM2315's are so slow
   // Should dig into AM2315 to see if I can speed this up.
-  if (rtc.getSeconds()%20 == 0) {
+  if (rtc.getSeconds() == 30) {
     Serial.println("Reading temp/rh sensor 2...");
     tcaSelect(2, 2000);
     if (! am2315.readTemperatureAndHumidity(&tempLight, &rhLight)) {

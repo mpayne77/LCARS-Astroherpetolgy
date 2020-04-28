@@ -352,13 +352,9 @@ function fetchJSON(reqPath) {
 function tempReadLockout () {
   let today = new Date;
   let t = today.getSeconds();
-  if (t >= 0 && t < 5) {
+  if (t > 30 && t < 35) {
     return true;
-  } else if (t >= 20 && t <=25) {
-    return true;
-  } else if (t >= 40 && t <= 45) {
-    return true;
-  } else {
+  }  else {
     return false;
   }
 }
