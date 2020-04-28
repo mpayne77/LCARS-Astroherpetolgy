@@ -11,6 +11,7 @@ let arduinoTime = '--:--:--';
 let soilVWC = 0.0;
 let uvIndex = 0.0;
 let tzAdjust = -5;
+let serverURL = 'http://192.168.1.219';
 
 let topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-3', label:'LCARS', id: 'topFrame1'});
 let topFrame2 = LCARS.create({type: 'elbow', color:'bg-orange-3', label:'ACCESS', id: 'topFrame2'});
@@ -318,16 +319,12 @@ $(document).ready(function(){
 
 });
 
-// Requests JSON from Arduino and updates all UI elements accordingly
-function updateItems() {
+function fetchJSON(reqPath) {
+  let fullURL = serverURL + reqPath;
   
-  topFrame5.set('label', stardate());
-  bottomFrame4.set('label', localTime());
-  
-  setTimeBarPostion();
-  
-  $.get('http://192.168.1.219/', function(data) {
-    
+
+
+  $.get(fullURL, function(data) {  
   // Collect and parse JSON from Arduino
   let jsonData = JSON.parse(data);
     console.log(jsonData);
@@ -350,7 +347,34 @@ function updateItems() {
       tzAdjust = jsonData.tzAdjust;
     }
   });
+}
 
+function tempReadLockout () {
+  let today = new Date;
+  let t = today.getSeconds();
+  if (t >= 0 && t < 5) {
+    return true;
+  } else if (t >= 20 && t <=25) {
+    return true;
+  } else if (t >= 40 && t <= 45) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// Requests JSON from Arduino and updates all UI elements accordingly
+function updateItems() {
+  
+  topFrame5.set('label', stardate());
+  bottomFrame4.set('label', localTime());
+  
+  setTimeBarPostion();
+
+  if (!tempReadLockout()) {
+    fetchJSON('/');
+  }
+  
   if (lightStatus === 'ON') {
     uvIndexStatus.set('state', 'blink');
     uvIndexStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
