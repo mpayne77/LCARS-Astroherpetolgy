@@ -7,9 +7,9 @@ let tempLight = 0.0;
 let rhLight = 0.0;
 let tempShade = 0.0;
 let rhShade = 0.0;
-let arduinoTime = '--:--:--'
-let soilVWC = 0.0
-let uvIntensity = 0.0
+let arduinoTime = '--:--:--';
+let soilVWC = 0.0;
+let uvIndex = 0.0;
 let tzAdjust = -5;
 
 let topFrame1 = LCARS.create({type: 'bar', color:'bg-orange-3', label:'LCARS', id: 'topFrame1'});
@@ -68,10 +68,10 @@ let soilVWCStatus = LCARS.create({type:'complexButton', id: 'soilVWCStatus', chi
   {type: 'bar', version: 'round-right', color: 'bg-purple-3', id: 'soilVWCCap'}
 ]});
 
-let uvIntensityStatus = LCARS.create({type:'complexButton', id: 'uvIntensityStatus', children: [
-  {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'UV\nINTENSITY', id: 'uvIntensityButton'}, 
-  {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'uvIntensityText'}, 
-  {type: 'bar', version: 'round-right', color: 'bg-purple-4 ', id: 'uvIntensityCap'}
+let uvIndexStatus = LCARS.create({type:'complexButton', id: 'uvIndexStatus', children: [
+  {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'UV\nINTENSITY', id: 'uvIndexButton'}, 
+  {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'uvIndexText'}, 
+  {type: 'bar', version: 'round-right', color: 'bg-purple-4 ', id: 'uvIndexCap'}
 ]});
 
 let lightPowerToggle = LCARS.create({type: 'button', version: 'round', color: 'bg-red-1', label: '', id: 'lightPowerToggle'});
@@ -279,7 +279,7 @@ $(document).ready(function(){
   $('body').append((tempShadeStatus).dom);
   $('body').append((rhShadeStatus).dom);
   $('body').append((soilVWCStatus).dom);
-  $('body').append((uvIntensityStatus).dom);
+  $('body').append((uvIndexStatus).dom);
   $('body').append((lightPowerToggle).dom);
   $('#lightPowerToggle').hide();
   $('body').append((lightOverrideText).dom);
@@ -339,6 +339,7 @@ function updateItems() {
     rhShade = jsonData.rhShade;
     arduinoTime = jsonData.time;
     soilVWC = jsonData.soilVWC;
+    uvIndex = jsonData.uvIndex;
     
     if (mode != 'TIMERSET') {
       onTime = jsonData.timerLow;
@@ -351,15 +352,15 @@ function updateItems() {
   });
 
   if (lightStatus === 'ON') {
-    uvIntensityStatus.set('state', 'blink');
-    uvIntensityStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
+    uvIndexStatus.set('state', 'blink');
+    uvIndexStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
     tempLightStatus.set('state', 'blink');
     tempLightStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
     lightPowerToggle.set('label', 'TURN LIGHT OFF');
     lightPowerToggle.set('color', 'bg-red-1');
   } else {
-    uvIntensityStatus.set('state', null);
-    uvIntensityStatus.set('colors', ['bg-purple-4', 'bg-grey-1', 'bg-purple-4']);
+    uvIndexStatus.set('state', null);
+    uvIndexStatus.set('colors', ['bg-purple-4', 'bg-grey-1', 'bg-purple-4']);
     tempLightStatus.set('state', null);
     tempLightStatus.set('colors', ['bg-purple-3', 'bg-grey-1', 'bg-purple-3']);
     lightPowerToggle.set('label', 'TURN LIGHT ON');
@@ -470,10 +471,10 @@ function updateItems() {
     LCARS.active.soilVWCText.set('text', '--.-');
   }
   
-  if (uvIntensity > 1) {
-    LCARS.active.uvIntensityText.set('text', (soilVWC.toFixed(1)).toString());
+  if (uvIndex > 0.03) {
+    LCARS.active.uvIndexText.set('text', (uvIndex.toFixed(1)).toString());
   } else {
-    LCARS.active.uvIntensityText.set('text', '--.-');
+    LCARS.active.uvIndexText.set('text', '--.-');
   }
 
   LCARS.active.tzAdjustText.set('text', tzAdjust.toString());

@@ -27,6 +27,7 @@ float tempLight, rhLight, tempShade, rhShade;
 String mode = "NORMAL";
 int timeIndex = 0;
 float soilVWC = -1;
+float uvIndex = -1;
 
 Adafruit_AM2315 am2315;
 
@@ -34,30 +35,30 @@ void setup() {
   Serial.begin(9600);      // initialize serial communication
   pinMode(6, OUTPUT);      // set the LED pin mode
 
-  // check for the WiFi module:
-  if (WiFi.status() == WL_NO_MODULE) {
-    Serial.println("Communication with WiFi module failed!");
-    // don't continue
-    while (true);
-  }
-
-  String fv = WiFi.firmwareVersion();
-  if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
-    Serial.println("Please upgrade the firmware");
-  }
-
-  // attempt to connect to Wifi network:
-  while (status != WL_CONNECTED) {
-    Serial.print("Attempting to connect to Network named: ");
-    Serial.println(ssid);                   // print the network name (SSID);
-
-    // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
-    status = WiFi.begin(ssid, pass);
-    // wait 10 seconds for connection:
-    delay(10000);
-  }
-  server.begin();                           // start the web server on port 80
-  printWifiStatus();                        // you're connected now, so print out the status
+//  // check for the WiFi module:
+//  if (WiFi.status() == WL_NO_MODULE) {
+//    Serial.println("Communication with WiFi module failed!");
+//    // don't continue
+//    while (true);
+//  }
+//
+//  String fv = WiFi.firmwareVersion();
+//  if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
+//    Serial.println("Please upgrade the firmware");
+//  }
+//
+//  // attempt to connect to Wifi network:
+//  while (status != WL_CONNECTED) {
+//    Serial.print("Attempting to connect to Network named: ");
+//    Serial.println(ssid);                   // print the network name (SSID);
+//
+//    // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
+//    status = WiFi.begin(ssid, pass);
+//    // wait 10 seconds for connection:
+//    delay(10000);
+//  }
+//  server.begin();                           // start the web server on port 80
+  wifiInit();
 
   setClock();
   calcTimeIndex();
@@ -80,6 +81,7 @@ void setup() {
 
 
 void loop() {
+  Serial.println(WiFi.status());
   // Check time and toggle light accordingly
   if (mode != "TIMEROVERRIDE") {
     calcTimeIndex();
@@ -94,9 +96,13 @@ void loop() {
   // Read VH400 soil humidity sensor
   readVH400();
 
+  // Read UV light sensor
+  readUV();
+
   // Read AM2315's. Only reading every 20 seconds since the AM2315's are so slow
   // Should dig into AM2315 to see if I can speed this up.
   if (rtc.getSeconds()%20 == 0) {
+    Serial.println("Reading temp/rh sensor 2...");
     tcaSelect(2, 2000);
     if (! am2315.readTemperatureAndHumidity(&tempLight, &rhLight)) {
       Serial.println("Failed to read data from AM2315 2");
@@ -105,7 +111,8 @@ void loop() {
     }
     Serial.print("(2) Temp *C: "); Serial.println(tempLight);
     Serial.print("(2) Hum %: "); Serial.println(rhLight);
-  
+
+    Serial.println("Reading temp/rh sensor 7...");
     tcaSelect(7, 2000);
     if (! am2315.readTemperatureAndHumidity(&tempShade, &rhShade)) {
       Serial.println("Failed to read data from AM2315 7");
@@ -119,11 +126,11 @@ void loop() {
   }
   
   WiFiClient client = server.available();   // listen for incoming clients
-
   if (client) {                             // if you get a client,
-    //Serial.println("new client");           // print a message out the serial port
+    delay(200);
+    Serial.println("new client");           // print a message out the serial port
     String currentLine = "";                // make a String to hold incoming data from the client
-    StaticJsonDocument<200> jsonDoc;        // JSON document for output
+    StaticJsonDocument<300> jsonDoc;        // JSON document for output
     while (client.connected()) {            // loop while the client's connected
       if (client.available()) {             // if there's bytes to read from the client,
         char c = client.read();             // read a byte, then
@@ -172,6 +179,7 @@ void loop() {
             jsonDoc["rhShade"] = rhShade;
             jsonDoc["tzAdjust"] = tzAdjust;
             jsonDoc["soilVWC"] = soilVWC;
+            jsonDoc["uvIndex"] = uvIndex;
 
 
             // Send JSON to client
@@ -301,4 +309,39 @@ void readVH400() {
   if (soilVWC > 100) {
     soilVWC = 100;
   }
+}
+
+void readUV() {
+  int rawAnalogRead = analogRead(6);
+  float voltageRead = rawAnalogRead*3.3/1023;
+  uvIndex = voltageRead * 10;
+}
+
+void wifiInit() {
+  Serial.println("Wifi init");
+  delay(1000);
+  // check for the WiFi module:
+  if (WiFi.status() == WL_NO_MODULE) {
+    Serial.println("Communication with WiFi module failed!");
+    // don't continue
+    while (true);
+  }
+
+  String fv = WiFi.firmwareVersion();
+  if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
+    Serial.println("Please upgrade the firmware");
+  }
+
+  // attempt to connect to Wifi network:
+  while (status != WL_CONNECTED) {
+    Serial.print("Attempting to connect to Network named: ");
+    Serial.println(ssid);                   // print the network name (SSID);
+
+    // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
+    status = WiFi.begin(ssid, pass);
+    // wait 10 seconds for connection:
+    delay(10000);
+  }
+  server.begin();                           // start the web server on port 80
+  printWifiStatus();                        // you're connected now, so print out the status
 }
