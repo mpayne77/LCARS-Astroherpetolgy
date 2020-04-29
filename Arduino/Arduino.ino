@@ -59,6 +59,14 @@ void setup() {
 
 void loop() {
   Serial.println(WiFi.status());
+
+  // Check for wifi, if not connected reconnect and set clock
+  if (WiFi.status() != WL_CONNECTED) {
+    WiFi.end();
+    wifiInit();
+    setClock();
+  }
+  
   // Check time and toggle light accordingly
   if (mode != "TIMEROVERRIDE") {
     calcTimeIndex();
@@ -310,7 +318,7 @@ void wifiInit() {
   }
 
   // attempt to connect to Wifi network:
-  while (status != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED) {
     Serial.print("Attempting to connect to Network named: ");
     Serial.println(ssid);                   // print the network name (SSID);
 
