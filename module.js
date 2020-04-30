@@ -322,8 +322,6 @@ $(document).ready(function(){
 function fetchJSON(reqPath) {
   let fullURL = serverURL + reqPath;
   
-
-
   $.get(fullURL, function(data) {  
   // Collect and parse JSON from Arduino
   let jsonData = JSON.parse(data);
@@ -456,8 +454,16 @@ function updateItems() {
         LCARS.active.diagResult4.set('color', 'bg-red-1');
         LCARS.active.diagResult4.set('state', 'blink');
       }
-
       
+      if (uvIndex < 10) {
+        LCARS.active.diagResult5.set('text', 'ONLINE');
+        LCARS.active.diagResult5.set('color', 'bg-green-1');
+        LCARS.active.diagResult5.set('state', null);
+      } else {
+        LCARS.active.diagResult5.set('text', 'OFFLINE');
+        LCARS.active.diagResult5.set('color', 'bg-red-1');
+        LCARS.active.diagResult5.set('state', 'blink');
+      }
   }
 
   if (tempLight > 0) {
