@@ -1,3 +1,18 @@
+@media (max-width:1200px) {
+  #pageTitle {
+    font-size: 60px;
+  }
+}
+
+
+
+/* @media (max-width:1024px) {
+  #pageTitle {
+    font-size: 45px;
+  }
+} */
+
+
 
 .elbow.default.horizontal {
 	min-width:25px; 
@@ -382,4 +397,14 @@
 #diagOval {
   max-width: 10%;
   min-width: 10%;
+}
+
+@media (max-width:1080px) {
+  #pageTitle {
+    font-size: 50px;
+  }
+
+  #infoText div {
+    font-size: 20px;
+  }
 }
