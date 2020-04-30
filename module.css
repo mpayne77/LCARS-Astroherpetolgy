@@ -1,9 +1,8 @@
-@media (max-width:1200px) {
+/* @media (max-width:1200px) {
   #pageTitle {
     font-size: 60px;
   }
-}
-
+} */
 
 
 /* @media (max-width:1024px) {
@@ -11,7 +10,6 @@
     font-size: 45px;
   }
 } */
-
 
 
 .elbow.default.horizontal {
@@ -30,8 +28,10 @@
 
 #pageTitle {
   position: absolute;
-  right: 10px;
+  right: 5px;
   top: 5px;
+  font-size: 5.5vw;
+  text-align: right;
 }
 
 .row {
@@ -48,6 +48,7 @@
   width: 10%;
   left: 5px;
   text-align: right;
+  font-size: 1.6vw;
 }
 
 #topFrame3, #topFrame4, #topFrame5 {
@@ -71,6 +72,7 @@
   height: 30px;
   left: 40%;
   text-align: right;
+  font-size: 1.6vw;
 }
 
 #topFrame5, #bottomFrame4 {
@@ -78,6 +80,7 @@
   height: 30px;
   left: calc(70% + 5px);
   text-align: left;
+  font-size: 1.6vw; 
 }
 
 #turtlePicture {
@@ -136,11 +139,11 @@
   width: 15%;
   height: 5%;
   text-align: right;
-  font-size: 17px;
+  font-size: 1.3vw;
 }
 
 #tempLightText, #rhLightText, #tempShadeText, #rhShadeText, #soilVWCText, #uvIndexText {
-  font-size: 45px;
+  font-size: 3.5vw;
   text-align: center;
   width: 35%;
 }
@@ -326,7 +329,7 @@
   letter-spacing: -1px;
   margin-top: 10px;
   margin-left: 10px;
-  font-size: 23px;
+  font-size: 2vw;
 }
 
 #diagnosticFrame {
@@ -399,7 +402,7 @@
   min-width: 10%;
 }
 
-@media (max-width:1080px) {
+/* @media (max-width:1080px) {
   #pageTitle {
     font-size: 50px;
   }
@@ -407,4 +410,4 @@
   #infoText div {
     font-size: 20px;
   }
-}
+} */

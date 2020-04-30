@@ -64,13 +64,13 @@ let rhShadeStatus = LCARS.create({type:'complexButton', id: 'rhShadeStatus', chi
 ]});
 
 let soilVWCStatus = LCARS.create({type:'complexButton', id: 'soilVWCStatus', children: [
-  {type: 'button', version: 'round-left', color: 'bg-purple-3', label: 'SOIL\nHUMIDITY', id: 'soilVWCButton'}, 
+  {type: 'button', version: 'round-left', color: 'bg-purple-3', label: 'SOIL\nVWC', id: 'soilVWCButton'}, 
   {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'soilVWCText'}, 
   {type: 'bar', version: 'round-right', color: 'bg-purple-3', id: 'soilVWCCap'}
 ]});
 
 let uvIndexStatus = LCARS.create({type:'complexButton', id: 'uvIndexStatus', children: [
-  {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'UV\nINTENSITY', id: 'uvIndexButton'}, 
+  {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'UV\nINDEX', id: 'uvIndexButton'}, 
   {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'uvIndexText'}, 
   {type: 'bar', version: 'round-right', color: 'bg-purple-4 ', id: 'uvIndexCap'}
 ]});
@@ -316,6 +316,7 @@ $(document).ready(function(){
 
   setInterval(updateItems, 1000);
   updateTimerBar(onTime, offTime);
+  
 
 });
 
@@ -680,3 +681,4 @@ function tzIncButtonClick () {
     LCARS.active.tzAdjustText.set('text', tzAdjust);
   }
 }
+
