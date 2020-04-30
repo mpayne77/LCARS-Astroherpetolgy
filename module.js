@@ -39,41 +39,43 @@ coloring: {
   },
 });
 
-let tempLightStatus = LCARS.create({type:'complexButton', id: 'tempLightStatus', children: [
-  {type: 'button', version: 'round-left', color: 'bg-purple-3', label: 'TEMP\n(LIGHT)', id: 'tempLightButton'}, 
-  {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'tempLightText'}, 
-  {type: 'bar', version: 'round-right', color: 'bg-purple-3', id: 'tempLightCap'}
+let statusWrapper = LCARS.create({type: 'wrapper', id: 'statusWrapper', children: [
+  {type: 'row', flexc: 'h', id: 'statusTopRow', children: [
+    {type:'complexButton', id: 'tempLightStatus', children: [
+      {type: 'button', version: 'round-left', color: 'bg-purple-3', label: 'TEMP\n(LIGHT)', id: 'tempLightButton'}, 
+      {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'tempLightText'}, 
+      {type: 'bar', version: 'round-right', color: 'bg-purple-3', id: 'tempLightCap'}
+    ]},
+    {type:'complexButton', id: 'tempShadeStatus', children: [
+      {type: 'button', version: 'round-left', color: 'bg-purple-3', label: 'TEMP\n(SHADE)', id: 'tempShadeButton'}, 
+      {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'tempShadeText'}, 
+      {type: 'bar', version: 'round-right', color: 'bg-purple-3', id: 'tempShadeCap'}
+    ]},
+    {type:'complexButton', id: 'soilVWCStatus', children: [
+      {type: 'button', version: 'round-left', color: 'bg-purple-3', label: 'SOIL\nVWC', id: 'soilVWCButton'}, 
+      {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'soilVWCText'}, 
+      {type: 'bar', version: 'round-right', color: 'bg-purple-3', id: 'soilVWCCap'}
+    ]}
+  ]},
+  {type: 'row', flexc: 'h', id: 'statusTopRow', children: [
+    {type:'complexButton', id: 'rhLightStatus', children: [
+      {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'RH\n(LIGHT)', id: 'rhLightButton'}, 
+      {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'rhLightText'}, 
+      {type: 'bar', version: 'round-right', color: 'bg-purple-4', id: 'rhLightCap'}
+    ]},
+    {type:'complexButton', id: 'rhShadeStatus', children: [
+      {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'RH\n(SHADE)', id: 'rhShadeButton'}, 
+      {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'rhShadeText'}, 
+      {type: 'bar', version: 'round-right', color: 'bg-purple-4', id: 'rhShadeCap'}
+    ]},
+    {type:'complexButton', id: 'uvIndexStatus', children: [
+      {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'UV\nINDEX', id: 'uvIndexButton'}, 
+      {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'uvIndexText'}, 
+      {type: 'bar', version: 'round-right', color: 'bg-purple-4 ', id: 'uvIndexCap'}
+    ]}
+  ]}
 ]});
 
-let rhLightStatus = LCARS.create({type:'complexButton', id: 'rhLightStatus', children: [
-  {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'RH\n(LIGHT)', id: 'rhLightButton'}, 
-  {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'rhLightText'}, 
-  {type: 'bar', version: 'round-right', color: 'bg-purple-4', id: 'rhLightCap'}
-]});
-
-let tempShadeStatus = LCARS.create({type:'complexButton', id: 'tempShadeStatus', children: [
-  {type: 'button', version: 'round-left', color: 'bg-purple-3', label: 'TEMP\n(SHADE)', id: 'tempShadeButton'}, 
-  {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'tempShadeText'}, 
-  {type: 'bar', version: 'round-right', color: 'bg-purple-3', id: 'tempShadeCap'}
-]});
-
-let rhShadeStatus = LCARS.create({type:'complexButton', id: 'rhShadeStatus', children: [
-  {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'RH\n(SHADE)', id: 'rhShadeButton'}, 
-  {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'rhShadeText'}, 
-  {type: 'bar', version: 'round-right', color: 'bg-purple-4', id: 'rhShadeCap'}
-]});
-
-let soilVWCStatus = LCARS.create({type:'complexButton', id: 'soilVWCStatus', children: [
-  {type: 'button', version: 'round-left', color: 'bg-purple-3', label: 'SOIL\nVWC', id: 'soilVWCButton'}, 
-  {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'soilVWCText'}, 
-  {type: 'bar', version: 'round-right', color: 'bg-purple-3', id: 'soilVWCCap'}
-]});
-
-let uvIndexStatus = LCARS.create({type:'complexButton', id: 'uvIndexStatus', children: [
-  {type: 'button', version: 'round-left', color: 'bg-purple-4', label: 'UV\nINDEX', id: 'uvIndexButton'}, 
-  {type: 'title', color: 'bg-grey-1', text: '--.-', id: 'uvIndexText'}, 
-  {type: 'bar', version: 'round-right', color: 'bg-purple-4 ', id: 'uvIndexCap'}
-]});
 
 let lightPowerToggle = LCARS.create({type: 'button', version: 'round', color: 'bg-red-1', label: '', id: 'lightPowerToggle'});
 let lightOverrideText = LCARS.create({type: 'text', color: 'bg-purple-1', text: lightOverrideMessage, id: 'lightOverrideText'});
@@ -275,12 +277,12 @@ $(document).ready(function(){
   $('body').append((timerOverrideButton).dom);
   $('body').append((turtlePicture).dom);
   $('body').append((pictureBracket).dom);
-  $('body').append((tempLightStatus).dom);
-  $('body').append((rhLightStatus).dom);
-  $('body').append((tempShadeStatus).dom);
-  $('body').append((rhShadeStatus).dom);
-  $('body').append((soilVWCStatus).dom);
-  $('body').append((uvIndexStatus).dom);
+  // $('body').append((tempLightStatus).dom);
+  // $('body').append((rhLightStatus).dom);
+  // $('body').append((tempShadeStatus).dom);
+  // $('body').append((rhShadeStatus).dom);
+  // $('body').append((soilVWCStatus).dom);
+  // $('body').append((uvIndexStatus).dom);
   $('body').append((lightPowerToggle).dom);
   $('#lightPowerToggle').hide();
   $('body').append((lightOverrideText).dom);
@@ -291,6 +293,7 @@ $(document).ready(function(){
   $('#timerSet').hide();
   $('body').append((diagnosticFrame).dom);
   $('#diagnosticFrame').hide();
+  $('body').append((statusWrapper).dom);
   
   
   $('body').append((infoText).dom);
@@ -371,19 +374,19 @@ function updateItems() {
   }
   
   if (lightStatus === 'ON') {
-    uvIndexStatus.set('state', 'blink');
-    uvIndexStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
-    tempLightStatus.set('state', 'blink');
-    tempLightStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
-    lightPowerToggle.set('label', 'TURN LIGHT OFF');
-    lightPowerToggle.set('color', 'bg-red-1');
+    LCARS.active.uvIndexStatus.set('state', 'blink');
+    LCARS.active.uvIndexStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
+    LCARS.active.tempLightStatus.set('state', 'blink');
+    LCARS.active.tempLightStatus.set('colors', ['bg-blue-1', 'bg-grey-1', 'bg-blue-1']);
+    LCARS.active.lightPowerToggle.set('label', 'TURN LIGHT OFF');
+    LCARS.active.lightPowerToggle.set('color', 'bg-red-1');
   } else {
-    uvIndexStatus.set('state', null);
-    uvIndexStatus.set('colors', ['bg-purple-4', 'bg-grey-1', 'bg-purple-4']);
-    tempLightStatus.set('state', null);
-    tempLightStatus.set('colors', ['bg-purple-3', 'bg-grey-1', 'bg-purple-3']);
-    lightPowerToggle.set('label', 'TURN LIGHT ON');
-    lightPowerToggle.set('color', 'bg-red-2');
+    LCARS.active.uvIndexStatus.set('state', null);
+    LCARS.active.uvIndexStatus.set('colors', ['bg-purple-4', 'bg-grey-1', 'bg-purple-4']);
+    LCARS.active.tempLightStatus.set('state', null);
+    LCARS.active.tempLightStatus.set('colors', ['bg-purple-3', 'bg-grey-1', 'bg-purple-3']);
+    LCARS.active.lightPowerToggle.set('label', 'TURN LIGHT ON');
+    LCARS.active.lightPowerToggle.set('color', 'bg-red-2');
   }
 
   switch(mode) {

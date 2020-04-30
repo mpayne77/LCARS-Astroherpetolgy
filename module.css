@@ -28,10 +28,12 @@
 
 #pageTitle {
   position: absolute;
-  right: 5px;
-  top: 5px;
+  right: 0px;
+  top: 0px;
   font-size: 5.5vw;
   text-align: right;
+  padding-top: 5px;
+  padding-right: 5px;
 }
 
 .row {
@@ -134,12 +136,24 @@
   top: calc(80% + 20px);
 }
 
-#tempLightStatus, #rhLightStatus, #tempShadeStatus, #rhShadeStatus, #soilVWCStatus, #uvIndexStatus {
+#statusWrapper {
   position: absolute;
-  width: 15%;
-  height: 5%;
+  left: 12%;
+  margin-top: 5px;
+  width: 50%;
+  height: 20%;
+}
+
+#statusWrapper div {
+  padding-top: 5px;
+  justify-content: space-evenly;
+}
+
+#tempLightStatus, #rhLightStatus, #tempShadeStatus, #rhShadeStatus, #soilVWCStatus, #uvIndexStatus {
   text-align: right;
-  font-size: 1.3vw;
+  font-size: 1.5vw;
+  width: 30%;
+
 }
 
 #tempLightText, #rhLightText, #tempShadeText, #rhShadeText, #soilVWCText, #uvIndexText {
@@ -148,30 +162,6 @@
   width: 35%;
 }
 
-#tempLightStatus, #rhLightStatus {
-  left: 14%;
-}
-
-#tempShadeStatus, #rhShadeStatus {
-  left: 30%;
-}
-
-#soilVWCStatus, #uvIndexStatus {
-  left: 46%;
-}
-
-#tempLightStatus, #tempShadeStatus, #soilVWCStatus {
-  top: 3%;
-}
-
-#rhLightStatus, #rhShadeStatus, #uvIndexStatus {
-  top: 12%;
-}
-
-#tempLightCap, #rhLightCap, #tempShadeCap, #rhShadeCap, #soilVWCCap, #uvIndexCap {
-  position: relative;
-  width: 11%
-}
 
 #lightPowerToggle {
   position: absolute;
