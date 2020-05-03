@@ -29,10 +29,9 @@
 #pageTitle {
   position: absolute;
   right: 0px;
-  top: 0px;
-  font-size: 5.5vw;
+  margin-top: 1vh;
+  font-size: 7vh;
   text-align: right;
-  padding-top: 5px;
   padding-right: 5px;
 }
 
@@ -50,7 +49,7 @@
   width: 10%;
   left: 5px;
   text-align: right;
-  font-size: 1.7vw;
+  font-size: 2.2vh;
 }
 
 #topFrame3, #topFrame4, #topFrame5 {
@@ -74,7 +73,7 @@
   height: 30px;
   left: 40%;
   text-align: right;
-  font-size: 1.6vw;
+  font-size: 2.2vh;
 }
 
 #topFrame5, #bottomFrame4 {
@@ -82,7 +81,7 @@
   height: 30px;
   left: calc(70% + 5px);
   text-align: left;
-  font-size: 1.6vw; 
+  font-size: 2vh; 
 }
 
 #turtlePicture {
@@ -151,13 +150,14 @@
 
 #tempLightStatus, #rhLightStatus, #tempShadeStatus, #rhShadeStatus, #soilVWCStatus, #uvIndexStatus {
   text-align: right;
-  font-size: 1.5vw;
+  font-size: 2vh;
   width: 30%;
+  height: 8vh;
 
 }
 
 #tempLightText, #rhLightText, #tempShadeText, #rhShadeText, #soilVWCText, #uvIndexText {
-  font-size: 3.5vw;
+  font-size: 5vh;
   text-align: center;
   width: 35%;
 }
