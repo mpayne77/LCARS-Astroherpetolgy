@@ -6,6 +6,8 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_AM2315.h>
+#include <SD.h>
+
 #include "arduino_secrets.h"
 
 #define TCAADDR 0x70
@@ -13,7 +15,6 @@
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
 char ssid[] = SECRET_SSID;        // your network SSID (name)
 char pass[] = SECRET_PASS;    // your network password (use for WPA, or use as key for WEP)
-//int keyIndex = 0;                 // your network key Index number (needed only for WEP)
 
 int status = WL_IDLE_STATUS;
 WiFiServer server(80);
@@ -21,23 +22,53 @@ WiFiServer server(80);
 RTCZero rtc;
 
 int tzAdjust = -5;
-int timerLow = 24;
+int timerLow = 32;
 int timerHigh = 80;
 float tempLight, rhLight, tempShade, rhShade;
 String mode = "NORMAL";
 int timeIndex = 0;
 float soilVWC = -1;
 float uvIndex = -1;
+char fileXfer[3] = "00";
 
 Adafruit_AM2315 am2315;
 
+File sdFile;
+
 void setup() {
+  
   Serial.begin(9600);      // initialize serial communication
+  delay(2000);
   pinMode(6, OUTPUT);      // set the LED pin mode
+  pinMode(10, OUTPUT);     // needed for SD library
 
-  wifiInit();
+  Serial.println("Initializing SD card... ");
 
-  setClock();
+  // get timerLow and timerHigh from SD card
+  if (SD.begin(4)) {
+    sdFile = SD.open("timerLow.txt");
+    sdFile.read(fileXfer, 2);
+    sdFile.close();
+  
+    timerLow = fileXfer[0] - '0';
+    timerLow = timerLow*10;
+    timerLow += fileXfer[1] - '0';
+  
+    sdFile = SD.open("timerOff.txt");
+    sdFile.read(fileXfer, 2);
+    sdFile.close();
+    
+    timerHigh = fileXfer[0] - '0';
+    timerHigh = timerHigh*10;
+    timerHigh += fileXfer[1] - '0';
+  }
+  else {
+    Serial.println("Initialization failed");
+  }
+
+  wifiInit(); // Initialize Wifi
+
+  setClock(); // Set RTC clock
   calcTimeIndex();
 
   // Initialize AM2315 on multiplexer channel 2
@@ -53,12 +84,10 @@ void setup() {
      Serial.println("Sensor 7 not found, check wiring & pullups!");
      while (1);
   }
-  
 } // end of setup()
 
 
 void loop() {
-  Serial.println(WiFi.status());
 
   // Check for wifi, if not connected reconnect and set clock
   if (WiFi.status() != WL_CONNECTED) {
@@ -106,7 +135,6 @@ void loop() {
     }
     Serial.print("(7) Temp *C: "); Serial.println(tempShade);
     Serial.print("(7) Hum %: "); Serial.println(rhShade);
-  
     Serial.println();
   }
   
@@ -193,12 +221,31 @@ void loop() {
         }
         
         if (currentLine.startsWith("GET") && currentLine.endsWith("SETTIMER")) {
+          
+          // Get timerLow value from URL and store in timerLow
           String strTimerLow = currentLine.substring(5, 7); // ON time is chars 5 and 6
           timerLow = strTimerLow.toInt();
-          Serial.println(timerLow);
+
+          // Write timerLow value to SD card
+          fileXfer[0] = currentLine[5];
+          fileXfer[1] = currentLine[6];
+          sdFile = SD.open("timerLow.txt", O_READ | O_WRITE | O_CREAT | O_TRUNC);
+          sdFile.write(fileXfer);
+          sdFile.close();
+
+          //Get timerHigh value from URL and store in timerHigh
           String strTimerHigh = currentLine.substring(8, 10); // OFF time is chars 8 and 8
           timerHigh = strTimerHigh.toInt();
+          
+          // Write timerHigh value to SD card
+          fileXfer[0] = currentLine[8];
+          fileXfer[1] = currentLine[9];
+          sdFile = SD.open("timerOff.txt", O_READ | O_WRITE | O_CREAT | O_TRUNC);
+          sdFile.write(fileXfer);
+          sdFile.close();
+
           mode = "NORMAL";
+          
         }
 
         if (currentLine.startsWith("GET") && currentLine.endsWith("SETCLOCK")) {
@@ -221,10 +268,7 @@ void loop() {
         
         if (currentLine.endsWith("GET /NORMAL")) {
           mode = "NORMAL";
-        }
-
-        
-        
+        }  
       }
     }
     
@@ -276,7 +320,8 @@ void tcaSelect(uint8_t i, int d) {
   delay(d);
 }
 
-void readVH400() {
+// Read VH400 sensor and apply lookup table to raw analog sensor output
+void readVH400() { 
   int rawAnalogRead = analogRead(1);
   float voltageRead = rawAnalogRead*3.3/1023;
   if (voltageRead <= 1.1) {
@@ -290,18 +335,19 @@ void readVH400() {
   } else {
     soilVWC = 62.5*voltageRead - 87.5;
   }
-
   if (soilVWC > 100) {
     soilVWC = 100;
   }
 }
 
+// Read UV sensor and convert raw analog output to UV index
 void readUV() {
   int rawAnalogRead = analogRead(6);
   float voltageRead = rawAnalogRead*3.3/1023;
   uvIndex = voltageRead * 10;
 }
 
+// Connects to wifi network
 void wifiInit() {
   Serial.println("Wifi init");
   delay(1000);
@@ -325,7 +371,7 @@ void wifiInit() {
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
     status = WiFi.begin(ssid, pass);
     // wait 10 seconds for connection:
-    delay(10000);
+    delay(5000);
   }
   server.begin();                           // start the web server on port 80
   printWifiStatus();                        // you're connected now, so print out the status
