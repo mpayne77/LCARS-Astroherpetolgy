@@ -317,8 +317,8 @@ $(document).ready(function(){
   $('#tzDecButton').click(function(){tzDecButtonClick()});
   $('#tzIncButton').click(function(){tzIncButtonClick()});
 
-  $('topFrame1').click(function(){topFrameClick()});
-  $('topFrame2').click(function(){topFrameClick()});
+  $('#topFrame1').click(function(){topFrameClick()});
+  $('#topFrame2').click(function(){topFrameClick()});
 
   setInterval(updateItems, 1000);
   updateTimerBar(onTime, offTime);
@@ -326,7 +326,8 @@ $(document).ready(function(){
 
 });
 
-function topFrameClick() {
+function topFrameClick () {
+  console.log('here');
   window.location = 'http://192.168.1.36/LCARS-command-console/command-console/';
 }
 
